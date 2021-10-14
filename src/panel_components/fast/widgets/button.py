@@ -26,27 +26,32 @@ class Button(Widget, ButtonBase):
         `outline` or `stealth`. Defaults to `neutral`.""",
         allow_None=True,
     )
-    autofocus = param.Boolean(
-        default=False,
-        doc="""The autofocus attribute. Defaults to `False`""",
-    )
 
+# For some unknown reason using ${_css_names} gives a js error
     _template="""
-<fast-button id="button" class="${_css_names}" onclick="${script('click')}">{{name}}</fast-button>
+<fast-button id="component" onclick="${script('click')}">${name}</fast-button>
 """
 
     _scripts = {
         **ButtonBase._scripts,
         "render": ButtonBase._scripts["render"] + "\n" + """
-button.appearance=data.appearance;
-button.autofocus=data.autofocus;
+component.appearance=data.appearance;
 """,
-        "appearance": "button.appearance=data.appearance",
-        "autofocus": "button.autofocus=data.autofocus",
+        "appearance": "component.appearance=data.appearance",
     }
 
     def _handle_button_type_changed(self, event=None):
-        self.appearance = BUTTON_TYPE_TO_APPEARANCE[event.new]
+        if event:
+            self.appearance = BUTTON_TYPE_TO_APPEARANCE[event.new]
+        else:
+            self.appearance = BUTTON_TYPE_TO_APPEARANCE[self.button_type]
+
+    @classmethod
+    def example(cls):
+        return cls(name="Fast Button", tooltip="Click Me!", button_type="primary")
+
+    def _handle_css_names_changed(self, event=None):
+        return super()._handle_css_names_changed(event=event)
 
 if __name__.startswith("bokeh"):
     Button().explorer().servable()

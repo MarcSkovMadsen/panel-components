@@ -11,11 +11,15 @@ CSS_NAMES_DEFAULT = ["bk", "bk-btn"]
 class Button(Widget, ButtonBase):
     _template="""
 <div id="buttonGroup" class="bk bk-btn-group">
-    <button id="button" class="${_css_names}" onclick="${script('click')}">{{name}}</button>
+    <button id="component" onclick="${script('click')}">${name}</button>
 </div>"""
 
     def _get_css_names(self):
         return CSS_NAMES_DEFAULT  + ["bk-btn-" + self.button_type] + super()._get_css_names()
+
+    @classmethod
+    def example(cls):
+        return cls(name="Panel Button", tooltip="Click Me!", button_type="success")
 
 if __name__.startswith("bokeh"):
     Button().explorer().servable()

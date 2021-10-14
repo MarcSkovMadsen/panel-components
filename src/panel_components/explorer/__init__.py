@@ -3,9 +3,10 @@ import panel as pn
 from panel_components.html import widgets as html_widgets
 from panel_components.panel import widgets as panel_widgets
 from panel_components.fast import widgets as fast_widgets
+from panel_components.wired import widgets as wired_widgets
 
 pn.config.raw_css.append("""
-.pn-widget {
+.pn-component {
    width: 100%;
    height: 100%;
 }
@@ -15,16 +16,17 @@ pn.config.raw_css.append("""
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
-    "Fast": [fast_widgets.button.Button(name="Fast Button", tooltip="Click Me!")],
-    "HTML": [html_widgets.button.Button(name="HTML Button", tooltip="Click Me!")],
-    "Panel": [panel_widgets.button.Button(name="Panel Button", tooltip="Click Me!")],
+    "Fast": [fast_widgets.button.Button.example()],
+    "HTML": [html_widgets.button.Button.example()],
+    "Panel": [panel_widgets.button.Button.example()],
+    "Wired": [wired_widgets.button.Button.example()],
 }
 
 FRAMEWORKS = list(WIDGETS.keys())
 class ComponentExplorer(pn.viewable.Viewer):
-    framework = param.Selector(default="Panel", objects=FRAMEWORKS)
+    framework = param.Selector(default=FRAMEWORKS[0], objects=FRAMEWORKS)
     component_type = param.Selector(default="widget", objects=COMPONENT_TYPES)
-    component = param.Selector(default=WIDGETS["Panel"][0], objects=WIDGETS["Panel"])
+    component = param.Selector(default=WIDGETS[FRAMEWORKS[0]][0], objects=WIDGETS[FRAMEWORKS[0]])
 
     def __init__(self, **params):
         super().__init__(**params)
@@ -66,4 +68,7 @@ class ComponentExplorer(pn.viewable.Viewer):
 if __name__.startswith("bokeh"):
     pn.extension(sizing_mode="stretch_width")
 
-    ComponentExplorer(framework="Fast").servable()
+    pn.Column(
+        ComponentExplorer(),
+        # pn.pane.HTML("""<wired-button style="width:300px">hello</wired-button>"""),
+    ).servable()

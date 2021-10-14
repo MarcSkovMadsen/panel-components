@@ -1,4 +1,2 @@
-from panel.reactive import ReactiveHTML
-
-class Component(ReactiveHTML):
+class Component():
     pass

@@ -19,13 +19,10 @@ class ButtonBase(Widget):
 
     _scripts={
         **Widget._scripts,
-        "render": "button.disabled=data.disabled;button.title=data.tooltip",
-        "disabled": "button.disabled=data.disabled",
-        "tooltip": "button.title=data.tooltip",
-        "click": "data.clicks += 1"
+        "click": "data.clicks += 1",
     }
 
-    _css_names_component = ["pn-widget"]
+    _css_names_component = ["pn-component"]
 
     def __init__(self, **params):
         super().__init__(**params)
@@ -33,6 +30,7 @@ class ButtonBase(Widget):
         self.param.watch(self._handle_button_type_changed, "button_type")
         self.param.watch(self._handle_css_names_changed, "css_names")
 
+        self._handle_button_type_changed()
         self._handle_css_names_changed()
 
     @param.depends("clicks", watch=True)
