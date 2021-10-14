@@ -1,0 +1,69 @@
+import param
+import panel as pn
+from panel_components.html import widgets as html_widgets
+from panel_components.panel import widgets as panel_widgets
+from panel_components.fast import widgets as fast_widgets
+
+pn.config.raw_css.append("""
+.pn-widget {
+   width: 100%;
+   height: 100%;
+}
+"""
+)
+
+COMPONENT_TYPES = ["widget"]
+
+WIDGETS = {
+    "Fast": [fast_widgets.button.Button(name="Fast Button", tooltip="Click Me!")],
+    "HTML": [html_widgets.button.Button(name="HTML Button", tooltip="Click Me!")],
+    "Panel": [panel_widgets.button.Button(name="Panel Button", tooltip="Click Me!")],
+}
+
+FRAMEWORKS = list(WIDGETS.keys())
+class ComponentExplorer(pn.viewable.Viewer):
+    framework = param.Selector(default="Panel", objects=FRAMEWORKS)
+    component_type = param.Selector(default="widget", objects=COMPONENT_TYPES)
+    component = param.Selector(default=WIDGETS["Panel"][0], objects=WIDGETS["Panel"])
+
+    def __init__(self, **params):
+        super().__init__(**params)
+
+        self._settings = pn.Param(
+            self,
+            parameters=["framework", "component_type", "component"],
+            expand_button=False,
+            show_name=False,
+            default_layout=pn.Row,
+            sizing_mode="fixed",
+            width=600)
+        self._layout = pn.Column(self._settings, sizing_mode="stretch_both")
+        self._update_components()
+        self._update_layout()
+
+    def __panel__(self):
+        return self._layout
+
+    @param.depends("framework", watch=True)
+    def _update_components(self):
+        widgets=WIDGETS[self.framework]
+        self.param.component.objects = widgets
+        self.component = self.param.component.default = widgets[0]
+
+    @param.depends("component", watch=True)
+    def _update_layout(self):
+        try:
+            explorer = self.component.explorer(show_name=False)
+        except:
+            controls=self.component.controls(sizing_mode="fixed", width=300)
+            explorer = pn.Row(controls, self)
+        self._layout[:] = [
+            self._settings,
+            explorer,
+        ]
+
+
+if __name__.startswith("bokeh"):
+    pn.extension(sizing_mode="stretch_width")
+
+    ComponentExplorer(framework="Fast").servable()
