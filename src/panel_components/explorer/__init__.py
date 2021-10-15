@@ -1,10 +1,11 @@
 import param
 import panel as pn
-from panel_components.fast import widgets as fast_widgets
+# from panel_components.fast import widgets as fast_widgets
 # from panel_components.fluent import widgets as fluent_widgets
 # from panel_components.html import widgets as html_widgets
 # from panel_components.panel import widgets as panel_widgets
 # from panel_components.wired import widgets as wired_widgets
+from panel_components.bootstrap.widgets import BootstrapButton
 
 pn.config.raw_css.append("""
 .pn-component {
@@ -17,11 +18,12 @@ pn.config.raw_css.append("""
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
-    "Fast": [fast_widgets.button.Button.example()],
+    # "Fast": [fast_widgets.button.Button.example()],
     # "Fluent": [fluent_widgets.button.Button.example()],
     # "HTML": [html_widgets.button.Button.example()],
     # "Panel": [panel_widgets.button.Button.example()],
     # "Wired": [wired_widgets.button.Button.example()],
+    "Bootstrap": [BootstrapButton.example()],
 }
 
 FRAMEWORKS = list(WIDGETS.keys())
@@ -72,10 +74,10 @@ if __name__.startswith("bokeh"):
 
     pn.Column(
         ComponentExplorer(),
-        pn.pane.HTML("""
-<div>
-    <fast-button id="anchor" style="height: 40px; width: 100px; margin: 100px; background: green;">Hover me</fast-button>
-    <fast-tooltip anchor="anchor">Tooltip text</fast-tooltip>
-</div>
-"""),
+#         pn.pane.HTML("""
+# <div>
+#     <fast-button id="anchor" style="height: 40px; width: 100px; margin: 100px; background: green;">Hover me</fast-button>
+#     <fast-tooltip anchor="anchor">Tooltip text</fast-tooltip>
+# </div>
+# """),
     ).servable()
