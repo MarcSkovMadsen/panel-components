@@ -1,6 +1,5 @@
 from ...shared.widgets.button import ButtonBase
-from ...shared.component import ReactComponentGenerator
-from .material_widget import MaterialWidget
+from .material_widget import MaterialWidget, MaterialWidgetGenerator
 import param
 from collections import namedtuple
 
@@ -43,7 +42,7 @@ SELF_UPDATE = "self.updateElement()"
 
 
 class MaterialButton(MaterialWidget, ButtonBase):
-    _template = ReactComponentGenerator.create_template()
+    _template = MaterialWidgetGenerator.create_template()
 
     color = param.Selector(
         default="primary",
@@ -70,7 +69,7 @@ class MaterialButton(MaterialWidget, ButtonBase):
     tooltip_configuration = param.Dict({})
     height = param.Integer(default=36, bounds=(0, None))
 
-    _scripts = ReactComponentGenerator.create_scripts(
+    _scripts = MaterialWidgetGenerator.create_scripts(
         element="MaterialUI.Button",
         properties={
             "variant": "variant",

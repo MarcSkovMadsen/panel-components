@@ -92,15 +92,22 @@ class ComponentGenerator(param.Parameterized):
             properties["title"]="tooltip"
         return properties
 
-
 class ReactComponentGenerator:
     _self_rerender = """self.updateElement()"""
     _self_render = "state.component=component;self.updateElement()"
+    _tooltip_element = ""
+
+
+    # (
+    #     # return
+    #     """tooltip=React.createElement(ReactBootstrap.Tooltip,null,data.tooltip);"""
+    #     """overlay=React.createElement(ReactBootstrap.OverlayTrigger,{placement: data.tooltip_placement, overlay: tooltip},element);"""
+    #     """element=React.createElement(React.Fragment,null,overlay);"""
+    # )
 
     __javascript__ = [
-        "https://unpkg.com/react@17.0.2/umd/react.development.js",
-        "https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js",
-        "https://unpkg.com/babel-standalone@latest/babel.min.js",
+        "https://unpkg.com/react@17.0.2/umd/react.production.min.js",
+        "https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js",
     ]
 
     @staticmethod
@@ -111,15 +118,14 @@ class ReactComponentGenerator:
     def _create_update_element_script(cls, element, config, children, tooltip_element=""):
         config_str = cls._to_string(f"{config}".replace("'", "").replace(" ", ""))
         config_str = config_str[:-1] + ",...data.configuration}"
-        tooltip_str = (
-            "{title:data.tooltip,placement:data.tooltip_placement,...data.tooltip_configuration}"
-        )
-        return (
+
+        result = (
             f"""element=React.createElement({element},{config_str},{children});"""
-            f"""element=React.createElement({tooltip_element},{tooltip_str},element);"""
+            + cls._tooltip_element +
             """ReactDOM.unmountComponentAtNode(state.component);"""
             """ReactDOM.render(element,state.component)"""
         )
+        return result
 
     @classmethod
     def create_template(

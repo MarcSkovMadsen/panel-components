@@ -21,8 +21,8 @@ pn.config.raw_css.append("""
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
-    "Ant": [AntButton.example()],
     "Bootstrap": [BootstrapButton.example()],
+    "Ant": [AntButton.example()],
     "Fast": [FastButton.example()],
     "Fluent": [FluentButton.example()],
     "HTML": [HTMLButton.example()],

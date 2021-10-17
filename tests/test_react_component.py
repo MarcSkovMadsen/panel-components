@@ -1,5 +1,5 @@
 from panel_components.shared.component import ReactComponentGenerator
-
+from panel_components.material.widgets.material_widget import MaterialWidgetGenerator
 
 def test_react_component():
     assert ReactComponentGenerator.create_template() == """<div id="component" class="pnc-container"></div>"""
@@ -13,7 +13,7 @@ def test_create_component_scripts():
     events = {}
     children = "name"
     # When
-    scripts = ReactComponentGenerator.create_scripts(
+    scripts = MaterialWidgetGenerator.create_scripts(
         element=el,
         properties=properties,
         events=events,
@@ -45,7 +45,7 @@ def test_different_prop_param_names():
     properties = {"disableElevation": "disable_elevation"}
     events = {}
     children = "name"
-    scripts = ReactComponentGenerator.create_scripts(element=el, properties=properties, events=events, children=children, tooltip_element="MaterialUI.Tooltip")
+    scripts = MaterialWidgetGenerator.create_scripts(element=el, properties=properties, events=events, children=children, tooltip_element="MaterialUI.Tooltip")
     assert scripts["render"] == "state.component=component;self.updateElement()"
     assert scripts["disable_elevation"] == "self.updateElement()"
     assert (

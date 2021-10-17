@@ -1,9 +1,9 @@
-from ...shared.widgets.button import ButtonBase
-from ...shared.component import ReactComponentGenerator
-from .ant_widget import Widget
-import param
 from collections import namedtuple
 
+import param
+
+from ...shared.widgets.button import ButtonBase
+from .ant_widget import AntWidget, AntWidgetGenerator
 
 TOOLTIP_PLACEMENT_DEFAULT = "top"
 TOOLTIP_PLACEMENTS = [
@@ -56,12 +56,12 @@ SIZES = list(SIZE_MAP.keys())
 SELF_UPDATE = "self.updateElement()"
 
 
-class AntButton(Widget, ButtonBase):
+class AntButton(AntWidget, ButtonBase):
     """Ant Design Button
 
     See https://ant.design/components/button/
     """
-    _template = ReactComponentGenerator.create_template()
+    _template = AntWidgetGenerator.create_template()
 
     danger = param.Boolean(False, doc="Set the danger status of button", precedence=0)
     ghost = param.Boolean(False, doc="Make background transparent and invert text and border colors", precedence=0)
@@ -76,7 +76,7 @@ class AntButton(Widget, ButtonBase):
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
 
-    _scripts = ReactComponentGenerator.create_scripts(
+    _scripts = AntWidgetGenerator.create_scripts(
         element="antd.Button",
         properties={
             "danger": "danger",
@@ -92,7 +92,6 @@ class AntButton(Widget, ButtonBase):
         children="name",
         tooltip_element="antd.Tooltip",
     )
-    print(_scripts["updateElement"])
 
     def __init__(self, **params):
         super().__init__(**params)

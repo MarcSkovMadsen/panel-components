@@ -1,6 +1,8 @@
+from panel_components.shared.component import ReactComponentGenerator
 class BootstrapComponent():
     __javascript__ = [
-        "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
+        *ReactComponentGenerator.__javascript__,
+        "https://unpkg.com/react-bootstrap@2.0.0-rc.1/dist/react-bootstrap.min.js",
     ]
 
     __css__ = [
