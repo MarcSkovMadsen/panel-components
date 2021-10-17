@@ -1,5 +1,5 @@
 from ...shared.widgets.button import ButtonBase
-from .widget import Widget
+from .fast_widget import FastWidget
 import param
 
 FAST_BUTTON_APPEARENCES = [
@@ -18,7 +18,7 @@ BUTTON_TYPE_TO_APPEARANCE = {
     "danger": "accent",
     "light": "lightweight"
 }
-class Button(Widget, ButtonBase):
+class FastButton(FastWidget, ButtonBase):
     appearance = param.ObjectSelector(
         default=DEFAULT_FAST_BUTTON_APPEARANCE,
         objects=FAST_BUTTON_APPEARENCES,
@@ -52,6 +52,3 @@ component.appearance=data.appearance;
 
     def _handle_css_names_changed(self, event=None):
         return super()._handle_css_names_changed(event=event)
-
-if __name__.startswith("bokeh"):
-    Button().explorer().servable()

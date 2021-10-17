@@ -1,2 +1,2 @@
 
-from .button import Button
+from .fast_button import FastButton

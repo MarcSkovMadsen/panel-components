@@ -1,12 +1,12 @@
 from panel.widgets.button import BUTTON_TYPES
 
 from ...shared.widgets.button import ButtonBase
-from .widget import Widget
+from .html_widget import HTMLWidget
 
 if not "light" in BUTTON_TYPES:
     BUTTON_TYPES.append("light")
 
-class Button(Widget, ButtonBase):
+class HTMLButton(HTMLWidget, ButtonBase):
     _template="""<button id="component" onclick="${script('click')}">${name}</button>"""
 
     def _get_css_names(self):

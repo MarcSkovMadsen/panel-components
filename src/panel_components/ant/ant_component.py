@@ -1,6 +1,6 @@
 from panel_components.shared.component import ReactComponent
 
-class Component():
+class AntComponent():
     __javascript__ = [
         *ReactComponent.__javascript__,
         "https://unpkg.com/antd@4.16.13/dist/antd.min.js",

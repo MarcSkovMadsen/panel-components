@@ -1,8 +1,8 @@
 from ...shared.widgets.button import ButtonBase
-from .widget import Widget
+from .wired_widget import WiredWidget
 import param
 
-class Button(Widget, ButtonBase):
+class WiredButton(WiredWidget, ButtonBase):
     elevation = param.Integer(default=1, bounds=(1,5))
 
     _template="""
@@ -24,4 +24,4 @@ component.elevation=data.elevation
         return cls(name="Wired", tooltip="Click Me!", button_type="primary")
 
 if __name__.startswith("bokeh"):
-    Button().explorer().servable()
+    WiredButton().explorer().servable()

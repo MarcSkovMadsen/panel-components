@@ -1,6 +1,6 @@
 from ...shared.widgets.button import ButtonBase
 from ...shared.component import ReactComponent
-from .widget import Widget
+from .materialui_widget import MaterialUIWidget
 import param
 from collections import namedtuple
 
@@ -42,7 +42,7 @@ SIZES = list(SIZE_MAP.keys())
 SELF_UPDATE = "self.updateElement()"
 
 
-class MaterialButton(Widget, ButtonBase):
+class MaterialUIButton(MaterialUIWidget, ButtonBase):
     _template = ReactComponent.create_template()
 
     color = param.Selector(
@@ -83,6 +83,7 @@ class MaterialButton(Widget, ButtonBase):
         },
         events={"click": "data.clicks = data.clicks + 1"},
         children="name",
+        tooltip_element="MaterialUI.Tooltip",
     )
 
     def __init__(self, **params):

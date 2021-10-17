@@ -1,6 +1,6 @@
 from ...shared.widgets.button import ButtonBase
 from ...shared.component import ReactComponent
-from .widget import Widget
+from .ant_widget import Widget
 import param
 from collections import namedtuple
 

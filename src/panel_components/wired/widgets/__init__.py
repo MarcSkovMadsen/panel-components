@@ -1,2 +1,2 @@
 
-from .button import Button
+from .wired_button import WiredButton

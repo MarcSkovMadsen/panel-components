@@ -17,7 +17,8 @@ def test_create_component_scripts():
         element=el,
         properties=properties,
         events=events,
-        children=children
+        children=children,
+        tooltip_element="MaterialUI.Tooltip",
     )
     # Then
     assert scripts["render"] == "state.component=component;self.updateElement()"
@@ -44,7 +45,7 @@ def test_different_prop_param_names():
     properties = {"disableElevation": "disable_elevation"}
     events = {}
     children = "name"
-    scripts = ReactComponent.create_scripts(element=el, properties=properties, events=events, children=children)
+    scripts = ReactComponent.create_scripts(element=el, properties=properties, events=events, children=children, tooltip_element="MaterialUI.Tooltip")
     assert scripts["render"] == "state.component=component;self.updateElement()"
     assert scripts["disable_elevation"] == "self.updateElement()"
     assert (

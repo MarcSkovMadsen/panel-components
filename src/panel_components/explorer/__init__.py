@@ -1,13 +1,13 @@
 import param
 import panel as pn
 from panel_components.ant.widgets import AntButton
-# from panel_components.bootstrap.widgets import BootstrapButton
-# from panel_components.fast import widgets as fast_widgets
-# from panel_components.fluent import widgets as fluent_widgets
-# from panel_components.html import widgets as html_widgets
-from panel_components.materialui.widgets import MaterialButton
-# from panel_components.panel import widgets as panel_widgets
-# from panel_components.wired import widgets as wired_widgets
+from panel_components.bootstrap.widgets import BootstrapButton
+from panel_components.fast.widgets import FastButton
+from panel_components.fluent.widgets import FluentButton
+from panel_components.html.widgets import HTMLButton
+from panel_components.materialui.widgets import MaterialUIButton
+from panel_components.panel.widgets import Button
+from panel_components.wired.widgets import WiredButton
 
 pn.config.raw_css.append("""
 .pn-component, .pn-component-wrapper {
@@ -21,13 +21,13 @@ COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
     "Ant": [AntButton.example()],
-    # "Bootstrap": [BootstrapButton.example()],
-    # "Fast": [fast_widgets.button.Button.example()],
-    # "Fluent": [fluent_widgets.button.Button.example()],
-    # "HTML": [html_widgets.button.Button.example()],
-    # "Panel": [panel_widgets.button.Button.example()],
-    # "Wired": [wired_widgets.button.Button.example()],
-    "Material": [MaterialButton.example()],
+    "Bootstrap": [BootstrapButton.example()],
+    "Fast": [FastButton.example()],
+    "Fluent": [FluentButton.example()],
+    "HTML": [HTMLButton.example()],
+    "MaterialUI": [MaterialUIButton.example()],
+    "Panel": [Button.example()],
+    "Wired": [WiredButton.example()],
 }
 
 FRAMEWORKS = list(WIDGETS.keys())
@@ -46,6 +46,8 @@ class ComponentExplorer(pn.viewable.Viewer):
             show_name=False,
             default_layout=pn.Row,
             sizing_mode="fixed",
+            default_precedence=-1,
+            # display_threshold=1e-7,
             width=600)
         self._layout = pn.Column(self._settings, sizing_mode="stretch_both")
         self._update_components()
