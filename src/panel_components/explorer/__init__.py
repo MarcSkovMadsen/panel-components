@@ -1,14 +1,16 @@
 import param
 import panel as pn
+from panel_components.ant.widgets import AntButton
+# from panel_components.bootstrap.widgets import BootstrapButton
 # from panel_components.fast import widgets as fast_widgets
 # from panel_components.fluent import widgets as fluent_widgets
 # from panel_components.html import widgets as html_widgets
+from panel_components.materialui.widgets import MaterialButton
 # from panel_components.panel import widgets as panel_widgets
 # from panel_components.wired import widgets as wired_widgets
-from panel_components.bootstrap.widgets import BootstrapButton
 
 pn.config.raw_css.append("""
-.pn-component {
+.pn-component, .pn-component-wrapper {
    width: 100%;
    height: 100%;
 }
@@ -18,12 +20,14 @@ pn.config.raw_css.append("""
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
+    "Ant": [AntButton.example()],
+    # "Bootstrap": [BootstrapButton.example()],
     # "Fast": [fast_widgets.button.Button.example()],
     # "Fluent": [fluent_widgets.button.Button.example()],
     # "HTML": [html_widgets.button.Button.example()],
     # "Panel": [panel_widgets.button.Button.example()],
     # "Wired": [wired_widgets.button.Button.example()],
-    "Bootstrap": [BootstrapButton.example()],
+    "Material": [MaterialButton.example()],
 }
 
 FRAMEWORKS = list(WIDGETS.keys())

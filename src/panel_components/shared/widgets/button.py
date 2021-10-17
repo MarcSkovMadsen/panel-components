@@ -3,6 +3,8 @@ from panel.widgets.button import BUTTON_TYPES
 
 from .widget import Widget
 
+if not "light" in BUTTON_TYPES:
+    BUTTON_TYPES = BUTTON_TYPES + ["light"]
 class Button():
     pass
 
