@@ -24,7 +24,7 @@ class ButtonBase(Widget):
         "click": "data.clicks += 1",
     }
 
-    _css_names_component = ["pn-component"]
+    _css_names_component = ["pnc-component"]
 
     def __init__(self, **params):
         super().__init__(**params)

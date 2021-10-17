@@ -2,7 +2,7 @@ from panel_components.shared.component import ReactComponent
 
 
 def test_react_component():
-    assert ReactComponent.create_template() == """<div id="component" class="pn-component-wrapper"></div>"""
+    assert ReactComponent.create_template() == """<div id="component" class="pnc-container"></div>"""
     assert ReactComponent._self_rerender == "self.updateElement()"
 
 
