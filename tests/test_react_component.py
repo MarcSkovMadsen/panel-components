@@ -1,9 +1,9 @@
-from panel_components.shared.component import ReactComponent
+from panel_components.shared.component import ReactComponentGenerator
 
 
 def test_react_component():
-    assert ReactComponent.create_template() == """<div id="component" class="pnc-container"></div>"""
-    assert ReactComponent._self_rerender == "self.updateElement()"
+    assert ReactComponentGenerator.create_template() == """<div id="component" class="pnc-container"></div>"""
+    assert ReactComponentGenerator._self_rerender == "self.updateElement()"
 
 
 def test_create_component_scripts():
@@ -13,7 +13,7 @@ def test_create_component_scripts():
     events = {}
     children = "name"
     # When
-    scripts = ReactComponent.create_scripts(
+    scripts = ReactComponentGenerator.create_scripts(
         element=el,
         properties=properties,
         events=events,
@@ -30,7 +30,7 @@ def test_create_component_scripts():
     assert {"render", "disabled", "updateElement"}.issubset(set(scripts.keys()))
 
 def test_create_complex_component_script():
-    scripts=ReactComponent.create_scripts(
+    scripts=ReactComponentGenerator.create_scripts(
             element="MaterialUI.Button",
             properties={"variant": "variant", "disabled": "disabled", "className": "_css_names", "color": "color", "disableElevation": "disable_elevation", "disableFocusRipple": "disable_focus_ripple", "disableRipple": "disable_ripple"},
             events={"click": "data.clicks=data.clicks+1}"},
@@ -45,7 +45,7 @@ def test_different_prop_param_names():
     properties = {"disableElevation": "disable_elevation"}
     events = {}
     children = "name"
-    scripts = ReactComponent.create_scripts(element=el, properties=properties, events=events, children=children, tooltip_element="MaterialUI.Tooltip")
+    scripts = ReactComponentGenerator.create_scripts(element=el, properties=properties, events=events, children=children, tooltip_element="MaterialUI.Tooltip")
     assert scripts["render"] == "state.component=component;self.updateElement()"
     assert scripts["disable_elevation"] == "self.updateElement()"
     assert (

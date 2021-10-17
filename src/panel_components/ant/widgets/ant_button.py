@@ -1,5 +1,5 @@
 from ...shared.widgets.button import ButtonBase
-from ...shared.component import ReactComponent
+from ...shared.component import ReactComponentGenerator
 from .ant_widget import Widget
 import param
 from collections import namedtuple
@@ -61,7 +61,7 @@ class AntButton(Widget, ButtonBase):
 
     See https://ant.design/components/button/
     """
-    _template = ReactComponent.create_template()
+    _template = ReactComponentGenerator.create_template()
 
     danger = param.Boolean(False, doc="Set the danger status of button", precedence=0)
     ghost = param.Boolean(False, doc="Make background transparent and invert text and border colors", precedence=0)
@@ -76,7 +76,7 @@ class AntButton(Widget, ButtonBase):
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
 
-    _scripts = ReactComponent.create_scripts(
+    _scripts = ReactComponentGenerator.create_scripts(
         element="antd.Button",
         properties={
             "danger": "danger",

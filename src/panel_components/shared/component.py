@@ -93,7 +93,7 @@ class WebComponentGenerator(param.Parameterized):
         return properties
 
 
-class ReactComponent:
+class ReactComponentGenerator:
     _self_rerender = """self.updateElement()"""
     _self_render = "state.component=component;self.updateElement()"
 
