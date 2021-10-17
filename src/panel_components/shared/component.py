@@ -20,7 +20,7 @@ class Component(ReactiveHTML):
 
     _child_config = {"name": "literal"}
 
-class WebComponentGenerator(param.Parameterized):
+class ComponentGenerator(param.Parameterized):
     element = param.String(default="div")
     id = param.String(default="component")
     class_name = param.String(None)

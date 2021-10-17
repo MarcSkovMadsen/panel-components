@@ -1,6 +1,6 @@
 from ...shared.widgets.button import ButtonBase
 from ...shared.component import ReactComponentGenerator
-from .materialui_widget import MaterialUIWidget
+from .material_widget import MaterialWidget
 import param
 from collections import namedtuple
 
@@ -42,7 +42,7 @@ SIZES = list(SIZE_MAP.keys())
 SELF_UPDATE = "self.updateElement()"
 
 
-class MaterialUIButton(MaterialUIWidget, ButtonBase):
+class MaterialButton(MaterialWidget, ButtonBase):
     _template = ReactComponentGenerator.create_template()
 
     color = param.Selector(

@@ -47,7 +47,7 @@ BUTTON_TYPES_ANT = [
 ]
 
 SIZE_MAP = {
-    "small": 24,  # MaterialUI is 30.75 but we keep this consistent with Panels default
+    "small": 24,
     "middle": 32,
     "large": 40,
 }

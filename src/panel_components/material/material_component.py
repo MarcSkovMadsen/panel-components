@@ -1,6 +1,6 @@
 from panel_components.shared.component import ReactComponentGenerator
 
-class MaterialUIComponent():
+class MaterialComponent():
     __javascript__ = [
         *ReactComponentGenerator.__javascript__,
         "https://unpkg.com/@material-ui/core@4.12.3/umd/material-ui.development.js",

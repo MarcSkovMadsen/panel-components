@@ -2,7 +2,7 @@ from panel_components.ant.widgets import AntButton
 from panel_components.fast.widgets import FastButton
 from panel_components.fluent.widgets import FluentButton
 from panel_components.html.widgets import HTMLButton
-from panel_components.materialui.widgets import MaterialUIButton
+from panel_components.material.widgets import MaterialButton
 from panel_components.panel.widgets import Button
 from panel_components.shared.widgets.button import ButtonBase
 from panel_components.shoelace.widgets import ShoelaceButton
@@ -17,7 +17,7 @@ BUTTONS = (
     FastButton,
     FluentButton,
     HTMLButton,
-    MaterialUIButton,
+    MaterialButton,
     ShoelaceButton,
     WiredButton,
 )

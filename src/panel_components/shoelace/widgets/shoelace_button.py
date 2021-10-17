@@ -1,12 +1,14 @@
-from ...shared.widgets.button import ButtonBase
-from .shoelace_widget import ShoelaceWidget
-import param
 from collections import namedtuple
-from ...shared.component import WebComponentGenerator
+
+import param
 from panel.io.loading import stop_loading_spinner
 
+from ...shared.component import ComponentGenerator
+from ...shared.widgets.button import ButtonBase
+from .shoelace_widget import ShoelaceWidget
+
 _Config = namedtuple("_ButtonTypeConfig", "type")
-BUTTON_TYPE_MAP = {
+BUTTON_TYPE_ALL_MAP = {
     "default": _Config("default"),
     "primary": _Config("primary"),
     "success": _Config("success"),
@@ -15,8 +17,8 @@ BUTTON_TYPE_MAP = {
     "danger": _Config("danger"),
     "light": _Config("default"),
 }
-BUTTON_TYPES_ALL = list(BUTTON_TYPE_MAP.keys())
-BUTTON_TYPES = [
+BUTTON_TYPES_ALL = list(BUTTON_TYPE_ALL_MAP.keys())
+BUTTON_TYPES_SHOELACE = [
     "default",
     "primary",
     "success",
@@ -47,14 +49,22 @@ SIZES_MAP = {
 }
 SIZES = list(SIZES_MAP)
 
-GENERATOR = WebComponentGenerator(
+GENERATOR = ComponentGenerator(
     element="sl-button",
-    properties={"type": "_button_type", "size": "size", "loading": "_loading", "outline": "outline", "pill": "pill", "circle": "circle"},
+    properties={
+        "type": "_button_type",
+        "size": "size",
+        "loading": "_loading",
+        "outline": "outline",
+        "pill": "pill",
+        "circle": "circle",
+    },
     events={"onclick": "data.clicks += 1"},
     children="name",
     tooltip_element="sl-tooltip",
     tooltip_properties={"content": "tooltip", "placement": "tooltip_placement"},
 )
+
 
 class ShoelaceButton(ShoelaceWidget, ButtonBase):
     button_type = param.Selector(
@@ -69,13 +79,11 @@ class ShoelaceButton(ShoelaceWidget, ButtonBase):
 
     tooltip_placement = param.Selector(default="bottom", objects=TOOLTIP_PLACEMENTS, precedence=0.2)
 
-
-    _button_type = param.Selector(default="default", objects=BUTTON_TYPES)
+    _button_type = param.Selector(default="default", objects=BUTTON_TYPES_SHOELACE)
     _loading = param.Boolean()
 
     _template = GENERATOR.create_template()
-    _scripts = {**GENERATOR.create_scripts()}
-
+    _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):
         super().__init__(**params)
@@ -84,18 +92,17 @@ class ShoelaceButton(ShoelaceWidget, ButtonBase):
 
     def _handle_button_type_changed(self, event=None):
         if event:
-            self._button_type = BUTTON_TYPE_MAP[event.new].type
+            self._button_type = BUTTON_TYPE_ALL_MAP[event.new].type
         else:
-            self._button_type = BUTTON_TYPE_MAP[self.button_type].type
+            self._button_type = BUTTON_TYPE_ALL_MAP[self.button_type].type
 
     @param.depends("size", watch=True)
     def _handle_size_changed(self):
-        self.height=SIZES_MAP[self.size]
+        self.height = SIZES_MAP[self.size]
 
     def _update_loading(self, *_):
         self._loading = self.loading
         stop_loading_spinner(self)
-
 
     @classmethod
     def example(cls):
