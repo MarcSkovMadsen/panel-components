@@ -21,7 +21,7 @@ component.elevation=data.elevation
 
     @classmethod
     def example(cls):
-        return cls(name="Wired", tooltip="Click Me!", button_type="primary")
+        return cls(name="Wired Button", tooltip="Click Me!", button_type="primary")
 
 if __name__.startswith("bokeh"):
     WiredButton().explorer().servable()
