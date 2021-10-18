@@ -47,8 +47,17 @@ SIZES_MAP = {
     "lg": 48,
 }
 SIZES = list(SIZES_MAP.keys())
+
+GENERATOR = BootstrapWidgetGenerator(
+    element="ReactBootstrap.Button",
+    properties={
+        "variant": "button_type", "size": "size", "active": "active", "href": "href"
+    },
+    events={"click": "data.clicks = data.clicks + 1"},
+    children="name",
+)
 class BootstrapButton(BootstrapWidget, ButtonBase):
-    _template = BootstrapWidgetGenerator.create_template()
+    _template = GENERATOR.create_template()
 
     active = param.Boolean(doc="Manually set the visual state of the button to :active")
     button_type = param.ObjectSelector(default="light", objects=BUTTON_TYPES, doc="The button's type")
@@ -61,14 +70,7 @@ class BootstrapButton(BootstrapWidget, ButtonBase):
 
     height = param.Integer(default=38, bounds=(0, None))
 
-    _scripts = BootstrapWidgetGenerator.create_scripts(
-        element="ReactBootstrap.Button",
-        properties={
-            "variant": "button_type", "size": "size", "active": "active", "href": "href"
-        },
-        events={"click": "data.clicks = data.clicks + 1"},
-        children="name",
-    )
+    _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):
         super().__init__(**params)

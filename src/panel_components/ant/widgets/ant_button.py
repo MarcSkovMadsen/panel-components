@@ -55,13 +55,27 @@ SIZES = list(SIZE_MAP.keys())
 
 SELF_UPDATE = "self.updateElement()"
 
-
+GENERATOR = AntWidgetGenerator(
+    element="antd.Button",
+    properties={
+        "danger": "danger",
+        "ghost": "ghost",
+        # "href": "href",
+        # "loading": "loading",
+        "shape": "shape",
+        "size": "size",
+        # "target": "target",
+        "type": "_button_type",
+    },
+    events={"click": "data.clicks = data.clicks + 1"},
+    children="name",
+)
 class AntButton(AntWidget, ButtonBase):
     """Ant Design Button
 
     See https://ant.design/components/button/
     """
-    _template = AntWidgetGenerator.create_template()
+    _template = GENERATOR.create_template()
 
     danger = param.Boolean(False, doc="Set the danger status of button", precedence=0)
     ghost = param.Boolean(False, doc="Make background transparent and invert text and border colors", precedence=0)
@@ -76,21 +90,7 @@ class AntButton(AntWidget, ButtonBase):
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
 
-    _scripts = AntWidgetGenerator.create_scripts(
-        element="antd.Button",
-        properties={
-            "danger": "danger",
-            "ghost": "ghost",
-            # "href": "href",
-            # "loading": "loading",
-            "shape": "shape",
-            "size": "size",
-            # "target": "target",
-            "type": "_button_type",
-        },
-        events={"click": "data.clicks = data.clicks + 1"},
-        children="name",
-    )
+    _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):
         super().__init__(**params)

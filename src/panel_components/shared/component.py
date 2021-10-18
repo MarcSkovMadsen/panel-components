@@ -91,7 +91,7 @@ class ComponentGenerator(param.Parameterized):
             properties["title"]="tooltip"
         return properties
 
-class ReactComponentGenerator:
+class ReactComponentGenerator(param.Parameterized):
     element = param.String(default="div")
     id = param.String(default="component")
     class_name = param.String(None)
@@ -134,28 +134,30 @@ class ReactComponentGenerator:
         )
         return result
 
-    @classmethod
-    def create_template(
-        cls, element="div", id: str = "component", class_name: str = "pnc-container"
-    ) -> str:
-        return f"""<{element} id="{id}" class="{class_name}"></{element}>"""
+    def create_template(self) -> str:
+        return f"""<{self.element} id="{self.id}" class="pnc-container"></{self.element}>"""
 
-    @classmethod
-    def create_scripts(
-        cls, element: str, properties: Dict=None, events: Dict=None, children: Optional[str]=None) -> Dict:
-        if not properties:
+    def create_scripts(self) -> Dict:
+        element = self.element
+        if not self.properties:
             properties={}
-        if not events:
+        else:
+            properties=self.properties
+        if not self.events:
             events={}
-        if not children:
+        else:
+            events=self.events
+        if not self.children:
             children="null"
+        else:
+            children=self.children
 
         properties = {"className": "_css_names", "disabled": "disabled", **properties}
-        updates = {parameter: cls._self_rerender for parameter in properties.values()}
+        updates = {parameter: self._self_rerender for parameter in properties.values()}
         tooltip_updates = {
-            "tooltip": cls._self_rerender,
-            "tooltip_placement": cls._self_rerender,
-            "tooltip_configuration": cls._self_rerender,
+            "tooltip": self._self_rerender,
+            "tooltip_placement": self._self_rerender,
+            "tooltip_configuration": self._self_rerender,
         }
         updates = {**updates, **tooltip_updates}
         properties = {property: f"data.{parameter}" for property, parameter in properties.items()}
@@ -164,9 +166,9 @@ class ReactComponentGenerator:
         }
         children = f"data.{children}"
         return {
-            "render": cls._self_render,
+            "render": self._self_render,
             **updates,
-            "updateElement": cls._create_update_element_script(
+            "updateElement": self._create_update_element_script(
                 element, {**properties, **events}, children
             ),
         }

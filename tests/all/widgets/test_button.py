@@ -1,4 +1,5 @@
 from panel_components.ant.widgets import AntButton
+from panel_components.bootstrap.widgets import BootstrapButton
 from panel_components.fast.widgets import FastButton
 from panel_components.fluent.widgets import FluentButton
 from panel_components.html.widgets import HTMLButton
@@ -13,6 +14,7 @@ import panel as pn
 
 BUTTONS = (
     AntButton,
+    BootstrapButton,
     Button,
     FastButton,
     FluentButton,
