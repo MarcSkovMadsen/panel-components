@@ -1,6 +1,8 @@
-"""Basic Functionality for working with Ant Design components"""
-from panel_components.shared.component import ReactComponentGenerator
+"""Basic Functionality for working with Ant Design components
 
+See https://ant.design/
+"""
+from panel_components.shared.component import ReactComponentGenerator
 
 class AntComponent: # pylint: disable=too-few-public-methods
     """The AntWidget and AntLayout should inherit from this"""
