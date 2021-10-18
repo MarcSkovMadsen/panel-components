@@ -3,13 +3,21 @@ from panel.reactive import ReactiveHTML
 from panel import Row, Column
 import param
 
+
 class Component(ReactiveHTML):
+    @staticmethod
+    def _sort_controls(controls):
+        for widgetbox in controls:
+            panels = sorted(widgetbox, key=lambda x: x.name)
+            widgetbox[:] = [panel for panel in panels if not panel.name.islower()]
+
     @classmethod
     def example(cls):
         raise NotImplementedError()
 
     def explorer(self, show_name=True):
         controls = self.controls(sizing_mode="fixed", width=300)
+        self._sort_controls(controls)
         panel = Row(controls, self)
         if show_name:
             title = "# " + self.name
@@ -18,6 +26,7 @@ class Component(ReactiveHTML):
             return panel
 
     _child_config = {"name": "literal"}
+
 
 class ComponentGenerator(param.Parameterized):
     element = param.String(default="div")
@@ -49,7 +58,7 @@ class ComponentGenerator(param.Parameterized):
 
     def create_scripts(self) -> Dict:
         scripts = {}
-        render_script=""
+        render_script = ""
 
         if self.properties:
             properties = {**self.default_properties, **self.properties}
@@ -61,7 +70,7 @@ class ComponentGenerator(param.Parameterized):
                 scripts[parameter] = f"{self.id}.{property}=data.{parameter}"
                 if render_script:
                     render_script += ";"
-                render_script+= scripts[parameter]
+                render_script += scripts[parameter]
         events = self.events
         if self.tooltip_element:
             tooltip_properties = self.tooltip_properties
@@ -69,7 +78,7 @@ class ComponentGenerator(param.Parameterized):
                 scripts[parameter] = f"{self.tooltip_id}.{property}=data.{parameter}"
                 if render_script:
                     render_script += ";"
-                render_script+= scripts[parameter]
+                render_script += scripts[parameter]
         if events:
             for event, handler in events.items():
                 if render_script:
@@ -77,7 +86,7 @@ class ComponentGenerator(param.Parameterized):
                 render_script += f"component.{event}=()=>{{{handler}}}"
 
         if render_script:
-            scripts["render"]=render_script
+            scripts["render"] = render_script
         return scripts
 
     @property
@@ -88,8 +97,9 @@ class ComponentGenerator(param.Parameterized):
             "className": "_css_names",
         }
         if not self.tooltip_element:
-            properties["title"]="tooltip"
+            properties["title"] = "tooltip"
         return properties
+
 
 class ReactComponentGenerator(param.Parameterized):
     element = param.String(default="div")
@@ -103,7 +113,7 @@ class ReactComponentGenerator(param.Parameterized):
     tooltip_properties = param.Dict()
 
     _tooltip_element = ""
-    _props_to_ignore_if_empty_string=["href"]
+    _props_to_ignore_if_empty_string = ["href"]
 
     _self_rerender = """self.updateElement()"""
     _self_render = "state.component=component;self.updateElement()"
@@ -120,16 +130,16 @@ class ReactComponentGenerator(param.Parameterized):
     @classmethod
     def _create_update_element_script(cls, element, config, children):
         config_str = cls._to_string(f"{config}".replace("'", "").replace(" ", ""))
-        config_str = "config="+config_str[:-1] + ",...data.configuration};"
+        config_str = "config=" + config_str[:-1] + ",...data.configuration};"
         for property in cls._props_to_ignore_if_empty_string:
             if property in config:
                 config_str += f"""if (config["{property}"]===""){{delete config["{property}"]}};"""
 
         result = (
-            config_str +
-            f"""element=React.createElement({element},config,{children});"""
-            + cls._tooltip_element +
-            """ReactDOM.unmountComponentAtNode(state.component);"""
+            config_str
+            + f"""element=React.createElement({element},config,{children});"""
+            + cls._tooltip_element
+            + """ReactDOM.unmountComponentAtNode(state.component);"""
             """ReactDOM.render(element,state.component)"""
         )
         return result
@@ -140,17 +150,17 @@ class ReactComponentGenerator(param.Parameterized):
     def create_scripts(self) -> Dict:
         element = self.element
         if not self.properties:
-            properties={}
+            properties = {}
         else:
-            properties=self.properties
+            properties = self.properties
         if not self.events:
-            events={}
+            events = {}
         else:
-            events=self.events
+            events = self.events
         if not self.children:
-            children="null"
+            children = "null"
         else:
-            children=self.children
+            children = self.children
 
         properties = {"className": "_css_names", "disabled": "disabled", **properties}
         updates = {parameter: self._self_rerender for parameter in properties.values()}
