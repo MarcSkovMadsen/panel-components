@@ -1,3 +1,4 @@
+from panel import layout
 import param
 import panel as pn
 from panel_components.ant.widgets import AntButton
@@ -41,16 +42,18 @@ class ComponentExplorer(pn.viewable.Viewer):
     def __init__(self, **params):
         super().__init__(**params)
 
-        self._settings = pn.Param(
-            self,
-            parameters=["framework", "component_type", "component"],
-            expand_button=False,
-            show_name=False,
-            default_layout=pn.Row,
-            sizing_mode="fixed",
-            default_precedence=-1,
-            # display_threshold=1e-7,
-            width=600)
+        self._settings = pn.WidgetBox(
+            pn.Param(
+                self,
+                parameters=["framework", "component_type", "component"],
+                expand_button=False,
+                show_name=False,
+                 default_layout=pn.Row,
+                default_precedence=-1,
+                # display_threshold=1e-7,
+                sizing_mode="stretch_width",
+            )
+        )
         self._layout = pn.Column(self._settings, sizing_mode="stretch_both")
         self._update_components()
         self._update_layout()
@@ -64,6 +67,10 @@ class ComponentExplorer(pn.viewable.Viewer):
         self.param.component.objects = widgets
         self.component = self.param.component.default = widgets[0]
 
+    @property
+    def title(self):
+        return f"# {type(self.component).name}"
+
     @param.depends("component", watch=True)
     def _update_layout(self):
         try:
@@ -73,6 +80,8 @@ class ComponentExplorer(pn.viewable.Viewer):
             explorer = pn.Row(controls, self)
         self._layout[:] = [
             self._settings,
+            self.title,
+            pn.layout.HSpacer(height=10),
             explorer,
         ]
 
@@ -80,12 +89,4 @@ class ComponentExplorer(pn.viewable.Viewer):
 if __name__.startswith("bokeh"):
     pn.extension(sizing_mode="stretch_width")
 
-    pn.Column(
-        ComponentExplorer(),
-#         pn.pane.HTML("""
-# <div>
-#     <fast-button id="anchor" style="height: 40px; width: 100px; margin: 100px; background: green;">Hover me</fast-button>
-#     <fast-tooltip anchor="anchor">Tooltip text</fast-tooltip>
-# </div>
-# """),
-    ).servable()
+    ComponentExplorer().servable()

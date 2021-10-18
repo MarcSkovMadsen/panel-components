@@ -105,8 +105,8 @@ class MaterialButton(MaterialWidget, ButtonBase):
     @classmethod
     def example(cls):
         return cls(
-            name="Material Button",
-            tooltip="Click Me!",
+            name="Run Pipeline",
+            tooltip="Trains the model",
             button_type="primary",
             tooltip_placement="right-start",
             tooltip_configuration={"enterDelay": 200},

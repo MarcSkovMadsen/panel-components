@@ -14,4 +14,4 @@ class HTMLButton(HTMLWidget, ButtonBase):
 
     @classmethod
     def example(cls):
-        return cls(name="HTML Button", tooltip="Click Me!")
+        return cls(name="Run Pipeline", tooltip="Trains the model")

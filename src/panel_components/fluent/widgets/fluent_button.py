@@ -8,4 +8,4 @@ class FluentButton(FluentWidget, FluentButton):
 
     @classmethod
     def example(cls):
-        return cls(name="Fluent Button", tooltip="Click Me!", button_type="primary")
+        return cls(name="Run Pipeline", tooltip="Trains the model", button_type="primary")

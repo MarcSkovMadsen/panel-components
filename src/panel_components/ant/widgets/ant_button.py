@@ -113,7 +113,7 @@ class AntButton(AntWidget, ButtonBase):
     @classmethod
     def example(cls):
         return cls(
-            name="Ant Design Button",
-            tooltip="Click Me!",
+            name="Run Pipeline",
+            tooltip="Trains the model",
             button_type="primary",
         )

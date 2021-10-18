@@ -78,12 +78,10 @@ class BootstrapButton(BootstrapWidget, ButtonBase):
 
     @param.depends("size", watch=True)
     def _handle_size_changed(self):
-        print("size", self.size)
         self.height = SIZES_MAP[self.size]
-        print("height", self.size, self.height)
 
     @classmethod
     def example(cls):
         return cls(
-            name="Bootstrap Button", button_type="success", tooltip="Click Me!", tooltip_configuration={}
+            name="Run Pipeline", button_type="success", tooltip="Trains the model", tooltip_configuration={}
         )

@@ -106,4 +106,4 @@ class ShoelaceButton(ShoelaceWidget, ButtonBase):
 
     @classmethod
     def example(cls):
-        return cls(name="Shoelace Button", tooltip="Click Me!", button_type="primary")
+        return cls(name="Run Pipeline", tooltip="Trains the model", button_type="primary")

@@ -2,7 +2,7 @@ from typing import Dict, List, Optional
 from panel.reactive import ReactiveHTML
 from panel import Row, Column
 import param
-
+import panel as pn
 
 class Component(ReactiveHTML):
     @staticmethod
@@ -16,9 +16,9 @@ class Component(ReactiveHTML):
         raise NotImplementedError()
 
     def explorer(self, show_name=True):
-        controls = self.controls(sizing_mode="fixed", width=300)
+        controls = self.controls(sizing_mode="fixed", width=400)
         self._sort_controls(controls)
-        panel = Row(controls, self)
+        panel = Row(controls, self, sizing_mode="stretch_both")
         if show_name:
             title = "# " + self.name
             return Column(title, panel)

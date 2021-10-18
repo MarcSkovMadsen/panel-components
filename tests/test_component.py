@@ -11,7 +11,7 @@ class MyComponent(Component):
 
     @classmethod
     def example(cls):
-        return Button(name="Click Me")
+        return Button(name="Run Pipeline")
 
 def test_can_sort_controls():
     # Given

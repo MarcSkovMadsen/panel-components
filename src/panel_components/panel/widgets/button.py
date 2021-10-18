@@ -19,7 +19,7 @@ class Button(Widget, ButtonBase):
 
     @classmethod
     def example(cls):
-        return cls(name="Panel Button", tooltip="Click Me!", button_type="success")
+        return cls(name="Run Pipeline", tooltip="Trains the model", button_type="success")
 
 if __name__.startswith("bokeh"):
     Button().explorer().servable()

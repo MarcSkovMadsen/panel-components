@@ -48,7 +48,7 @@ component.appearance=data.appearance;
 
     @classmethod
     def example(cls):
-        return cls(name="Fast Button", tooltip="Click Me!", button_type="primary")
+        return cls(name="Run Pipeline", tooltip="Trains the model", button_type="primary")
 
     def _handle_css_names_changed(self, event=None):
         return super()._handle_css_names_changed(event=event)
