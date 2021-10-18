@@ -82,7 +82,6 @@ class MaterialButton(MaterialWidget, ButtonBase):
         },
         events={"click": "data.clicks = data.clicks + 1"},
         children="name",
-        tooltip_element="MaterialUI.Tooltip",
     )
 
     def __init__(self, **params):

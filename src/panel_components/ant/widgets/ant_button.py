@@ -90,7 +90,6 @@ class AntButton(AntWidget, ButtonBase):
         },
         events={"click": "data.clicks = data.clicks + 1"},
         children="name",
-        tooltip_element="antd.Tooltip",
     )
 
     def __init__(self, **params):

@@ -3,7 +3,6 @@ from panel.reactive import ReactiveHTML
 from panel import Row, Column
 import param
 
-
 class Component(ReactiveHTML):
     @classmethod
     def example(cls):
@@ -93,17 +92,21 @@ class ComponentGenerator(param.Parameterized):
         return properties
 
 class ReactComponentGenerator:
+    element = param.String(default="div")
+    id = param.String(default="component")
+    class_name = param.String(None)
+    properties = param.Dict()
+    events = param.Dict()
+    children = param.String()
+    tooltip_element = param.String()
+    tooltip_id = param.String("tooltip")
+    tooltip_properties = param.Dict()
+
+    _tooltip_element = ""
+    _props_to_ignore_if_empty_string=["href"]
+
     _self_rerender = """self.updateElement()"""
     _self_render = "state.component=component;self.updateElement()"
-    _tooltip_element = ""
-
-
-    # (
-    #     # return
-    #     """tooltip=React.createElement(ReactBootstrap.Tooltip,null,data.tooltip);"""
-    #     """overlay=React.createElement(ReactBootstrap.OverlayTrigger,{placement: data.tooltip_placement, overlay: tooltip},element);"""
-    #     """element=React.createElement(React.Fragment,null,overlay);"""
-    # )
 
     __javascript__ = [
         "https://unpkg.com/react@17.0.2/umd/react.production.min.js",
@@ -115,12 +118,16 @@ class ReactComponentGenerator:
         return f"{config}".replace("'", "").replace(" ", "")
 
     @classmethod
-    def _create_update_element_script(cls, element, config, children, tooltip_element=""):
+    def _create_update_element_script(cls, element, config, children):
         config_str = cls._to_string(f"{config}".replace("'", "").replace(" ", ""))
-        config_str = config_str[:-1] + ",...data.configuration}"
+        config_str = "config="+config_str[:-1] + ",...data.configuration};"
+        for property in cls._props_to_ignore_if_empty_string:
+            if property in config:
+                config_str += f"""if (config["{property}"]===""){{delete config["{property}"]}};"""
 
         result = (
-            f"""element=React.createElement({element},{config_str},{children});"""
+            config_str +
+            f"""element=React.createElement({element},config,{children});"""
             + cls._tooltip_element +
             """ReactDOM.unmountComponentAtNode(state.component);"""
             """ReactDOM.render(element,state.component)"""
@@ -135,8 +142,14 @@ class ReactComponentGenerator:
 
     @classmethod
     def create_scripts(
-        cls, element: str, properties: Dict, events: Dict, children: str, tooltip_element=""
-    ) -> Dict:
+        cls, element: str, properties: Dict=None, events: Dict=None, children: Optional[str]=None) -> Dict:
+        if not properties:
+            properties={}
+        if not events:
+            events={}
+        if not children:
+            children="null"
+
         properties = {"className": "_css_names", "disabled": "disabled", **properties}
         updates = {parameter: cls._self_rerender for parameter in properties.values()}
         tooltip_updates = {
@@ -154,6 +167,6 @@ class ReactComponentGenerator:
             "render": cls._self_render,
             **updates,
             "updateElement": cls._create_update_element_script(
-                element, {**properties, **events}, children, tooltip_element
+                element, {**properties, **events}, children
             ),
         }
