@@ -1,8 +1,10 @@
-from typing import Dict, List, Optional
-from panel.reactive import ReactiveHTML
-from panel import Row, Column
-import param
+from typing import Dict
+
 import panel as pn
+import param
+from panel import Column, Row
+from panel.reactive import ReactiveHTML
+
 
 class Component(ReactiveHTML):
     @staticmethod

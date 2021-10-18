@@ -21,7 +21,7 @@ TOOLTIP_PLACEMENTS = [
     "rightBottom",
 ]
 
-_Config = namedtuple("_ButtonTypeConfig", "type danger")
+_Config = namedtuple("_Config", "type danger")
 
 BUTTON_TYPE_MAP = {
     "default": _Config("default", False),
@@ -34,7 +34,6 @@ BUTTON_TYPE_MAP = {
     "warning": _Config("dashed", True),
     "danger": _Config("primary", True),
     "light": _Config("default", False),
-
 }
 BUTTON_TYPES_ALL = list(BUTTON_TYPE_MAP.keys())
 BUTTON_TYPES_ANT = [
@@ -70,15 +69,20 @@ GENERATOR = AntWidgetGenerator(
     events={"click": "data.clicks = data.clicks + 1"},
     children="name",
 )
+
+
 class AntButton(AntWidget, ButtonBase):
     """Ant Design Button
 
     See https://ant.design/components/button/
     """
+
     _template = GENERATOR.create_template()
 
     danger = param.Boolean(False, doc="Set the danger status of button", precedence=0)
-    ghost = param.Boolean(False, doc="Make background transparent and invert text and border colors", precedence=0)
+    ghost = param.Boolean(
+        False, doc="Make background transparent and invert text and border colors", precedence=0
+    )
     # href = param.String(None, doc="Redirect url of link button", precedence=0)
     # loading = param.Boolean(False, doc="Set the loading status of button", precedence=0)
     shape = param.Selector(default="default", objects=["default", "circle", "round"], precedence=0)
@@ -89,13 +93,11 @@ class AntButton(AntWidget, ButtonBase):
     tooltip_placement = param.Selector(default="bottom", objects=TOOLTIP_PLACEMENTS, precedence=0.2)
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
-
     _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):
         super().__init__(**params)
         self._handle_size_changed()
-
 
     @param.depends("size", watch=True)
     def _handle_size_changed(self):

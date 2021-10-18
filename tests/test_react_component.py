@@ -1,5 +1,5 @@
-from panel_components.shared.component import ReactComponentGenerator
 from panel_components.material.widgets.material_widget import MaterialWidgetGenerator
+from panel_components.shared.component import ReactComponentGenerator
 
 
 def test_react_component():

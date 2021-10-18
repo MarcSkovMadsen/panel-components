@@ -1,8 +1,9 @@
-from ...shared.widgets.button import ButtonBase
-from .material_widget import MaterialWidget, MaterialWidgetGenerator
-import param
 from collections import namedtuple
 
+import param
+
+from ...shared.widgets.button import ButtonBase
+from .material_widget import MaterialWidget, MaterialWidgetGenerator
 
 TOOLTIP_PLACEMENT_DEFAULT = "bottom"
 TOOLTIP_PLACEMENTS = [
@@ -20,7 +21,7 @@ TOOLTIP_PLACEMENTS = [
     "top",
 ]
 
-_Config = namedtuple("_ButtonTypeConfig", "variant color")
+_Config = namedtuple("_Config", "variant color")
 
 BUTTON_TYPE_MAP = {
     "default": _Config("outlined", "primary"),
@@ -41,19 +42,21 @@ SIZES = list(SIZE_MAP.keys())
 SELF_UPDATE = "self.updateElement()"
 
 GENERATOR = MaterialWidgetGenerator(
-        element="MaterialUI.Button",
-        properties={
-            "variant": "variant",
-            "disabled": "disabled",
-            "className": "_css_names",
-            "color": "color",
-            "disableElevation": "disable_elevation",
-            "disableFocusRipple": "disable_focus_ripple",
-            "disableRipple": "disable_ripple",
-        },
-        events={"click": "data.clicks = data.clicks + 1"},
-        children="name",
-    )
+    element="MaterialUI.Button",
+    properties={
+        "variant": "variant",
+        "disabled": "disabled",
+        "className": "_css_names",
+        "color": "color",
+        "disableElevation": "disable_elevation",
+        "disableFocusRipple": "disable_focus_ripple",
+        "disableRipple": "disable_ripple",
+    },
+    events={"click": "data.clicks = data.clicks + 1"},
+    children="name",
+)
+
+
 class MaterialButton(MaterialWidget, ButtonBase):
     _template = GENERATOR.create_template()
 

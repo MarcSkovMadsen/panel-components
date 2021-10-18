@@ -1,7 +1,9 @@
 from ..bootstrap_component import BootstrapComponent, ReactComponentGenerator
 
+
 class BootstrapWidget(BootstrapComponent):
     pass
+
 
 class BootstrapWidgetGenerator(ReactComponentGenerator):
     _tooltip_element = (

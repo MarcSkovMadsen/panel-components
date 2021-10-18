@@ -7,7 +7,7 @@ from ...shared.component import ComponentGenerator
 from ...shared.widgets.button import ButtonBase
 from .shoelace_widget import ShoelaceWidget
 
-_Config = namedtuple("_ButtonTypeConfig", "type")
+_Config = namedtuple("_Config", "type")
 BUTTON_TYPE_ALL_MAP = {
     "default": _Config("default"),
     "primary": _Config("primary"),

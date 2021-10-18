@@ -1,2 +1,2 @@
-class HTMLComponent():
+class HTMLComponent:
     pass

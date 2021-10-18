@@ -5,13 +5,16 @@ from .widget import Widget
 
 if not "light" in BUTTON_TYPES:
     BUTTON_TYPES = BUTTON_TYPES + ["light"]
-class Button():
+
+
+class Button:
     pass
+
 
 class ButtonBase(Widget):
     value = param.Event(precedence=-1)
     clicks = param.Integer(default=0)
-    button_type = param.ObjectSelector(default='default', objects=BUTTON_TYPES)
+    button_type = param.ObjectSelector(default="default", objects=BUTTON_TYPES)
     css_names = param.List([])
 
     height = param.Integer(default=32, bounds=(0, None))
@@ -19,7 +22,7 @@ class ButtonBase(Widget):
 
     _css_names = param.String("")
 
-    _scripts={
+    _scripts = {
         **Widget._scripts,
         "click": "data.clicks += 1",
     }
@@ -37,7 +40,7 @@ class ButtonBase(Widget):
 
     @param.depends("clicks", watch=True)
     def _trigger_value_event(self):
-        self.param.trigger('value')
+        self.param.trigger("value")
 
     def _handle_button_type_changed(self, event=None):
         self._handle_css_names_changed()
@@ -51,4 +54,4 @@ class ButtonBase(Widget):
 
     def _set_css_names(self, css_names):
         with param.edit_constant(self):
-            self._css_names=" ".join(css_names)
+            self._css_names = " ".join(css_names)

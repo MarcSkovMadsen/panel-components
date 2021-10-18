@@ -1,6 +1,7 @@
-from panel import layout
-import param
 import panel as pn
+import param
+from panel import layout
+
 from panel_components.ant.widgets import AntButton
 from panel_components.bootstrap.widgets import BootstrapButton
 from panel_components.fast.widgets import FastButton
@@ -11,7 +12,8 @@ from panel_components.panel.widgets import Button
 from panel_components.shoelace.widgets import ShoelaceButton
 from panel_components.wired.widgets import WiredButton
 
-pn.config.raw_css.append("""
+pn.config.raw_css.append(
+    """
 .pnc-component, .pnc-container {
    width: 100%;
    height: 100%;
@@ -34,6 +36,8 @@ WIDGETS = {
 }
 
 FRAMEWORKS = list(WIDGETS.keys())
+
+
 class ComponentExplorer(pn.viewable.Viewer):
     framework = param.Selector(default=FRAMEWORKS[0], objects=FRAMEWORKS)
     component_type = param.Selector(default="widget", objects=COMPONENT_TYPES)
@@ -48,7 +52,7 @@ class ComponentExplorer(pn.viewable.Viewer):
                 parameters=["framework", "component_type", "component"],
                 expand_button=False,
                 show_name=False,
-                 default_layout=pn.Row,
+                default_layout=pn.Row,
                 default_precedence=-1,
                 # display_threshold=1e-7,
                 sizing_mode="stretch_width",
@@ -63,7 +67,7 @@ class ComponentExplorer(pn.viewable.Viewer):
 
     @param.depends("framework", watch=True)
     def _update_components(self):
-        widgets=WIDGETS[self.framework]
+        widgets = WIDGETS[self.framework]
         self.param.component.objects = widgets
         self.component = self.param.component.default = widgets[0]
 
@@ -76,7 +80,7 @@ class ComponentExplorer(pn.viewable.Viewer):
         try:
             explorer = self.component.explorer(show_name=False)
         except:
-            controls=self.component.controls(sizing_mode="fixed", width=300)
+            controls = self.component.controls(sizing_mode="fixed", width=300)
             explorer = pn.Row(controls, self)
         self._layout[:] = [
             self._settings,

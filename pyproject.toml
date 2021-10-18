@@ -32,6 +32,16 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = "pkg_resources.*"
 ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "param.*"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "panel.*"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "bokeh.*"
+ignore_missing_imports = true
+
 
 # pyproject.toml
 [tool.pytest.ini_options]

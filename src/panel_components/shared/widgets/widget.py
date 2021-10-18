@@ -1,20 +1,28 @@
-from ..component import Component
 import param
 
+from ..component import Component
+
+
 class Widget(Component):
-    name = param.String(default='')
+    name = param.String(default="")
     tooltip = param.String()
     css_names = param.List([])
-    disabled = param.Boolean(default=False, doc="""
-       Whether the widget is disabled.""")
+    disabled = param.Boolean(
+        default=False,
+        doc="""
+       Whether the widget is disabled.""",
+    )
     autofocus = param.Boolean(
         default=False,
         doc="""The autofocus attribute. Defaults to `False`""",
     )
-    margin = param.Parameter(default=(5, 10), doc="""
+    margin = param.Parameter(
+        default=(5, 10),
+        doc="""
         Allows to create additional space around the component. May
         be specified as a two-tuple of the form (vertical, horizontal)
-        or a four-tuple (top, right, bottom, left).""")
+        or a four-tuple (top, right, bottom, left).""",
+    )
     _css_names = param.String("")
     _scripts = {
         "render": "component.disabled=data.disabled;component.title=data.tooltip;component.autofocus=data.autofocus;component.className=data._css_names",

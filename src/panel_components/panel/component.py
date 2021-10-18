@@ -1,2 +1,2 @@
-class Component():
+class Component:
     pass

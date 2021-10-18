@@ -1,6 +1,7 @@
+import param
+
 from ...shared.widgets.button import ButtonBase
 from .bootstrap_widget import BootstrapWidget, BootstrapWidgetGenerator
-import param
 
 BUTTON_TYPES = [
     "default",
@@ -43,27 +44,29 @@ TOOLTIP_PLACEMENTS = [
 
 SIZES_MAP = {
     "sm": 31,
-    "me":  38,
+    "me": 38,
     "lg": 48,
 }
 SIZES = list(SIZES_MAP.keys())
 
 GENERATOR = BootstrapWidgetGenerator(
     element="ReactBootstrap.Button",
-    properties={
-        "variant": "button_type", "size": "size", "active": "active", "href": "href"
-    },
+    properties={"variant": "button_type", "size": "size", "active": "active", "href": "href"},
     events={"click": "data.clicks = data.clicks + 1"},
     children="name",
 )
+
+
 class BootstrapButton(BootstrapWidget, ButtonBase):
     _template = GENERATOR.create_template()
 
     active = param.Boolean(doc="Manually set the visual state of the button to :active")
-    button_type = param.ObjectSelector(default="light", objects=BUTTON_TYPES, doc="The button's type")
+    button_type = param.ObjectSelector(
+        default="light", objects=BUTTON_TYPES, doc="The button's type"
+    )
     size = param.Selector(default="me", objects=SIZES, doc="Specifies a large or small button")
     configuration = param.Dict({})
-    href=param.String(doc="Providing a href will render an <a> element, styled as a button")
+    href = param.String(doc="Providing a href will render an <a> element, styled as a button")
 
     tooltip_placement = param.Selector(default="right", objects=TOOLTIP_PLACEMENTS)
     tooltip_configuration = param.Dict({})
@@ -83,5 +86,8 @@ class BootstrapButton(BootstrapWidget, ButtonBase):
     @classmethod
     def example(cls):
         return cls(
-            name="Run Pipeline", button_type="success", tooltip="Trains the model", tooltip_configuration={}
+            name="Run Pipeline",
+            button_type="success",
+            tooltip="Trains the model",
+            tooltip_configuration={},
         )

@@ -1,4 +1,5 @@
 from panel.reactive import ReactiveHTML
 
-class WiredComponent():
+
+class WiredComponent:
     pass

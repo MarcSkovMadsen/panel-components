@@ -1,6 +1,7 @@
 from panel_components.shared.component import ReactComponentGenerator
 
-class AntComponent():
+
+class AntComponent:
     __javascript__ = [
         *ReactComponentGenerator.__javascript__,
         "https://unpkg.com/antd@4.16.13/dist/antd.min.js",
