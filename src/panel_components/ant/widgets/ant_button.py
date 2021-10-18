@@ -1,3 +1,8 @@
+"""# AntButton
+
+See https://ant.design/components/button/
+"""
+
 from collections import namedtuple
 
 import param
@@ -71,7 +76,7 @@ GENERATOR = AntWidgetGenerator(
 )
 
 
-class AntButton(AntWidget, ButtonBase):
+class AntButton(AntWidget, ButtonBase): # pylint: disable=too-many-ancestors
     """Ant Design Button
 
     See https://ant.design/components/button/

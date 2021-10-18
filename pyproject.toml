@@ -14,6 +14,7 @@ profile = "black"
 [tool.pylint.design]
 max-attributes=12
 max-args=10
+R0901=30
 
 [tool.mypy]
 namespace_packages = true
