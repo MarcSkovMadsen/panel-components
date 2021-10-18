@@ -1,3 +1,7 @@
+"""# BootstrapButton
+
+See https://react-bootstrap.github.io/components/buttons/
+"""
 import param
 
 from ...shared.widgets.button import ButtonBase
@@ -57,7 +61,11 @@ GENERATOR = BootstrapWidgetGenerator(
 )
 
 
-class BootstrapButton(BootstrapWidget, ButtonBase):
+class BootstrapButton(BootstrapWidget, ButtonBase): # pylint: disable=too-many-ancestors
+    """# BootstrapButton
+
+See https://react-bootstrap.github.io/components/buttons/"""
+
     _template = GENERATOR.create_template()
 
     active = param.Boolean(doc="Manually set the visual state of the button to :active")
