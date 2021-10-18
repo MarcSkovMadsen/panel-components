@@ -9,7 +9,7 @@ class WiredButton(WiredWidget, ButtonBase):
 <wired-button id="component" onclick="${script('click')}">${name}</wired-button>
 """
     __javascript_modules__ = [
-        "https://unpkg.com/wired-elements/lib/wired-button.js?module"
+        "https://unpkg.com/wired-elements@3.0.0-rc.6/lib/wired-button.js?module"
     ]
     _scripts = {
         **ButtonBase._scripts,
