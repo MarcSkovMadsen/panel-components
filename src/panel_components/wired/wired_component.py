@@ -3,5 +3,6 @@
 See https://wiredjs.com/
 """
 
-class WiredComponent: # pylint: disable=too-few-public-methods
+
+class WiredComponent:  # pylint: disable=too-few-public-methods
     """The WiredWidget and WiredLayout should inherit from this"""

@@ -76,7 +76,7 @@ GENERATOR = AntWidgetGenerator(
 )
 
 
-class AntButton(AntWidget, ButtonBase): # pylint: disable=too-many-ancestors
+class AntButton(AntWidget, ButtonBase):  # pylint: disable=too-many-ancestors
     """Ant Design Button
 
     See https://ant.design/components/button/
