@@ -89,7 +89,6 @@ class ShoelaceButton(ShoelaceWidget, ButtonBase):  # pylint: disable=too-many-an
 
     _button_type = param.Selector(default="default", objects=BUTTON_TYPES_SHOELACE)
     _loading = param.Boolean()
-
     _template = GENERATOR.create_template()
     _scripts = GENERATOR.create_scripts()
 

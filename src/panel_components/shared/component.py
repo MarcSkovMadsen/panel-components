@@ -175,7 +175,7 @@ class ReactComponentGenerator(param.Parameterized):
 
     def create_template(self) -> str:
         """Returns the `_template` of the component"""
-        return f"""<{self.element} id="{self.id}" class="pnc-container"></{self.element}>"""
+        return f"""<div id="{self.id}" class="pnc-component"></div>"""
 
     def create_scripts(self) -> Dict:
         """Returns the `_scripts` of the component"""

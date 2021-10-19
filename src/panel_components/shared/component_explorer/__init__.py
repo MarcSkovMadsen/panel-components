@@ -14,7 +14,7 @@ from panel_components.wired.widgets import WiredButton
 
 pn.config.raw_css.append(
     """
-.pnc-component, .pnc-container {
+.pnc-container, .pnc-component {
    width: 100%;
    height: 100%;
 }

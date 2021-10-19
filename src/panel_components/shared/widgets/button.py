@@ -25,17 +25,18 @@ class ButtonBase(Widget):  # pylint: disable=too-many-ancestors
         **Widget._scripts,
         "click": "data.clicks += 1",
     }
-
-    _css_names_component = ["pnc-component"]
+    _properties = {**Widget._properties}
+    _events = {
+        **Widget._events,
+        "onclick": "data.clicks += 1",
+    }
 
     def __init__(self, **params):
         super().__init__(**params)
 
         self.param.watch(self._handle_button_type_changed, "button_type")
-        self.param.watch(self._handle_css_names_changed, "css_names")
 
         self._handle_button_type_changed()
-        self._handle_css_names_changed()
 
     @param.depends("clicks", watch=True)
     def _trigger_value_event(self):
@@ -43,17 +44,6 @@ class ButtonBase(Widget):  # pylint: disable=too-many-ancestors
 
     def _handle_button_type_changed(self, event=None):
         self._handle_css_names_changed(event=event)
-
-    def _handle_css_names_changed(self, event=None):  # pylint: disable=unused-argument
-        css_names = self._get_css_names()
-        self._set_css_names(css_names)
-
-    def _get_css_names(self):
-        return list(set(self._css_names_component + self.css_names))
-
-    def _set_css_names(self, css_names):
-        with param.edit_constant(self):
-            self._css_names = " ".join(css_names)
 
     @classmethod
     def example(cls):

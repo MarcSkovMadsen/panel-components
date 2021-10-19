@@ -1,22 +1,25 @@
 """# Material Widget Functionality
 
-Provides the MaterialWidget and MaterialWidgetGenerator
+Provides the MaterialWidget
 """
-from ...shared.component import ReactComponentGenerator
+from ...shared.react_generator import ReactGenerator
 from ..material_component import MaterialComponent
 
 
 class MaterialWidget(MaterialComponent):  # pylint: disable=too-few-public-methods
-    """Your Material Widgets should inherits this"""
+    """All Material widgets should inherit from this class"""
 
-
-class MaterialWidgetGenerator(ReactComponentGenerator):
-    """This class can generate the _template and _scripts for ReactiveHTML MaterialUI widgets"""
-
-    _tooltip_element = (
-        """element=React.createElement("""
-        """MaterialUI.Tooltip,"""
-        """{title:data.tooltip,placement:data.tooltip_placement,...data.tooltip_configuration},"""
-        """element"""
-        """);"""
-    )
+    @staticmethod
+    def _scripts(element, properties, events, children):
+        widget = ReactGenerator(
+            element=element,
+            properties=properties,
+            events=events,
+            children=children,
+        )
+        widget_with_tooltip = ReactGenerator(
+            element="MaterialUI.Tooltip",
+            properties={"title": "tooltip", "placement": "tooltip_placement"},
+            children=[widget],
+        )
+        return widget_with_tooltip.scripts

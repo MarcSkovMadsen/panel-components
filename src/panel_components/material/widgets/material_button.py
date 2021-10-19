@@ -7,7 +7,7 @@ from collections import namedtuple
 import param
 
 from ...shared.widgets.button import ButtonBase
-from .material_widget import MaterialWidget, MaterialWidgetGenerator
+from .material_widget import MaterialWidget
 
 TOOLTIP_PLACEMENT_DEFAULT = "bottom"
 TOOLTIP_PLACEMENTS = [
@@ -45,27 +45,15 @@ SIZES = list(SIZE_MAP.keys())
 
 SELF_UPDATE = "self.updateElement()"
 
-GENERATOR = MaterialWidgetGenerator(
-    element="MaterialUI.Button",
-    properties={
-        "variant": "variant",
-        "disabled": "disabled",
-        "className": "_css_names",
-        "color": "color",
-        "disableElevation": "disable_elevation",
-        "disableFocusRipple": "disable_focus_ripple",
-        "disableRipple": "disable_ripple",
-    },
-    events={"click": "data.clicks = data.clicks + 1"},
-    children="name",
-)
-
 
 class MaterialButton(MaterialWidget, ButtonBase):  # pylint: disable=too-many-ancestors
     """# MaterialButton
 
     See https://mui.com/components/buttons/"""
 
+    variant = param.Selector(
+        default="outlined", objects=["contained", "outlined", "text", "string"]
+    )
     color = param.Selector(
         default="primary",
         objects=[
@@ -79,20 +67,38 @@ class MaterialButton(MaterialWidget, ButtonBase):  # pylint: disable=too-many-an
             "string",
         ],
     )
-    variant = param.Selector(
-        default="outlined", objects=["contained", "outlined", "text", "string"]
-    )
     size = param.Selector(default="small", objects=SIZES)
-    disable_elevation = param.Boolean(default=False)
-    disable_focusRipple = param.Boolean(default=False)
-    disable_ripple = param.Boolean(default=False)
-    configuration = param.Dict({})
+    disable_elevation = param.Boolean()
+    disable_focusRipple = param.Boolean()
+    disable_ripple = param.Boolean()
+
+    tooltip = param.String("Click Me!")
     tooltip_placement = param.Selector(default="bottom", objects=TOOLTIP_PLACEMENTS)
-    tooltip_configuration = param.Dict({})
+
+    width = param.Integer(default=300, bounds=(0, None))
+    full_width = param.Boolean(default=True)
+
     height = param.Integer(default=36, bounds=(0, None))
 
-    _template = GENERATOR.create_template()
-    _scripts = GENERATOR.create_scripts()
+    _scripts = MaterialWidget._scripts(
+        element="MaterialUI.Button",
+        properties={
+            # Widget
+            "autofocus": "autofocus",
+            "className": "_css_names",
+            "disabled": "disabled",
+            # MaterialButton
+            "color": "color",
+            "disableElevation": "disable_elevation",
+            "disableFocusRipple": "disable_focus_ripple",
+            "disableRipple": "disable_ripple",
+            "fullWidth": "full_width",
+            "size": "size",
+            "variant": "variant",
+        },
+        events={"onClick": "data.clicks += 1"},
+        children=["data.name"],
+    )
 
     def __init__(self, **params):
         super().__init__(**params)
