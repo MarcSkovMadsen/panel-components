@@ -1,7 +1,9 @@
+"""Test of the ComponentGenerator"""
 from panel_components.shared.component import ComponentGenerator
 
 
 def test_create_template():
+    """Test of the `create_template` method"""
     assert (
         ComponentGenerator().create_template()
         == """<div class="pnc-container"><div id="component"></div></div>"""
@@ -18,13 +20,17 @@ def test_create_template():
         ComponentGenerator(class_name="test-class").create_template()
         == """<div class="pnc-container"><div id="component" class="test-class"></div></div>"""
     )
-    assert (
-        ComponentGenerator(tooltip_element="sl-tooltip").create_template()
-        == """<div class="pnc-container"><sl-tooltip id="tooltip"><div id="component"></div></sl-tooltip></div>"""
+    assert ComponentGenerator(tooltip_element="sl-tooltip").create_template() == (
+        """<div class="pnc-container">"""
+        """<sl-tooltip id="tooltip">"""
+        """<div id="component"></div>"""
+        """</sl-tooltip>"""
+        """</div>"""
     )
 
 
 def test_create_scripts():
+    """Test of the basic `create_scripts` function"""
     # When
     scripts = ComponentGenerator().create_scripts()
     # Then
@@ -32,6 +38,7 @@ def test_create_scripts():
 
 
 def test_create_scripts_with_property():
+    """Test of the basic `create_scripts` function given a simple `properties` argument"""
     # Given
     properties = {"buttonType": "_button_type"}
     # When
@@ -42,6 +49,7 @@ def test_create_scripts_with_property():
 
 
 def test_create_scripts_with_two_properties():
+    """Test of the basic `create_scripts` function given a length 2 `properties` argument"""
     # Given
     properties = {"a": "b", "c": "d"}
     # When
@@ -53,6 +61,7 @@ def test_create_scripts_with_two_properties():
 
 
 def test_create_scripts_with_events():
+    """Test of the basic `create_scripts` function given a simple `event` argument"""
     # Given
     events = {"onclick": "data.clicks += 1"}
     # When
@@ -62,6 +71,7 @@ def test_create_scripts_with_events():
 
 
 def test_create_scripts_with_tooltip_properties():
+    """Test of the basic `create_scripts` function given a simple `tooltip_properties` argument"""
     # When
     scripts = ComponentGenerator(
         tooltip_element="sl-button", tooltip_properties={"content": "tooltip"}

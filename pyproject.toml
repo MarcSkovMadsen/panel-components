@@ -16,6 +16,9 @@ max-attributes=12
 max-args=10
 R0901=30
 
+[tool.pylint.similarities]
+min-similarity-lines=11
+
 [tool.mypy]
 namespace_packages = true
 explicit_package_bases = true

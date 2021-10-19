@@ -1,12 +1,13 @@
+"""Test of the Shared Component Class"""
 import param
-from bokeh.models.mappers import ContinuousColorMapper
-from bokeh.settings import convert_bool
 from panel.widgets import Button
 
 from panel_components.shared.component import Component
 
 
-class MyComponent(Component):
+class MyComponent(Component):  # pylint: disable=too-many-ancestors
+    """Dummy Component for Testing"""
+
     b = param.Integer()
     _c = param.Integer()
     a = param.Integer()
@@ -17,11 +18,12 @@ class MyComponent(Component):
 
 
 def test_can_sort_controls():
+    """Test that the _sort_controls function works"""
     # Given
     component = MyComponent()
     controls = component.controls()
     # When
-    component._sort_controls(controls)
+    component._sort_controls(controls)  # pylint: disable=protected-access
     # then
     assert controls[0][0].name == ""
     assert controls[0][1].name == "A"

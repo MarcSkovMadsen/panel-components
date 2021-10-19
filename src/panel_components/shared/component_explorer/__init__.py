@@ -1,6 +1,6 @@
+"""The ComponentExplorer enables you to explore the widgets and layouts of `panel_components`"""
 import panel as pn
 import param
-from panel import layout
 
 from panel_components.ant.widgets import AntButton
 from panel_components.bootstrap.widgets import BootstrapButton
@@ -39,6 +39,8 @@ FRAMEWORKS = list(WIDGETS.keys())
 
 
 class ComponentExplorer(pn.viewable.Viewer):
+    """The ComponentExplorer enables you to explore the widgets and layouts of `panel_components`"""
+
     framework = param.Selector(default=FRAMEWORKS[0], objects=FRAMEWORKS)
     component_type = param.Selector(default="widget", objects=COMPONENT_TYPES)
     component = param.Selector(default=WIDGETS[FRAMEWORKS[0]][0], objects=WIDGETS[FRAMEWORKS[0]])
@@ -73,13 +75,14 @@ class ComponentExplorer(pn.viewable.Viewer):
 
     @property
     def title(self):
+        """The Name of the Component"""
         return f"# {type(self.component).name}"
 
     @param.depends("component", watch=True)
     def _update_layout(self):
         try:
             explorer = self.component.explorer(show_name=False)
-        except:
+        except:  # pylint: disable=bare-except
             controls = self.component.controls(sizing_mode="fixed", width=300)
             explorer = pn.Row(controls, self)
         self._layout[:] = [

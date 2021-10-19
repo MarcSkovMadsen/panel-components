@@ -1,9 +1,15 @@
+"""# Shared Widget Functionality
+
+Provides Shared Widget Functionality
+"""
 import param
 
 from ..component import Component
 
 
-class Widget(Component):
+class Widget(Component):  # pylint: disable=too-few-public-methods, too-many-ancestors
+    """Base Widget Class. You `panel_component` widgets should inherit from this"""
+
     name = param.String(default="")
     tooltip = param.String()
     css_names = param.List([])
@@ -25,9 +31,18 @@ class Widget(Component):
     )
     _css_names = param.String("")
     _scripts = {
-        "render": "component.disabled=data.disabled;component.title=data.tooltip;component.autofocus=data.autofocus;component.className=data._css_names",
+        "render": (
+            "component.disabled=data.disabled;"
+            "component.title=data.tooltip;"
+            "component.autofocus=data.autofocus;"
+            "component.className=data._css_names"
+        ),
         "disabled": "component.disabled=data.disabled",
         "tooltip": "component.title=data.tooltip",
         "autofocus": "component.autofocus=data.autofocus",
         "_css_names": "component.className=data._css_names",
     }
+
+    @classmethod
+    def example(cls):
+        raise NotImplementedError()

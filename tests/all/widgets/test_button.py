@@ -1,3 +1,4 @@
+"""Test of Shared Button Functionality"""
 import panel as pn
 import pytest
 
@@ -27,6 +28,7 @@ BUTTONS = (
 
 @pytest.mark.parametrize("cls", BUTTONS)
 def test_button(cls):
+    """Test of shared Button functionality"""
     button = cls(name="Click Me", disabled=True)
 
     assert button.name == "Click Me"

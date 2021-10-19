@@ -4,12 +4,14 @@ See https://react-bootstrap.github.io/
 """
 from ..bootstrap_component import BootstrapComponent, ReactComponentGenerator
 
-class BootstrapWidget(BootstrapComponent):
+
+class BootstrapWidget(BootstrapComponent):  # pylint: disable=too-few-public-methods
     """Bootstrap Widgets should inherit from this"""
 
 
 class BootstrapWidgetGenerator(ReactComponentGenerator):
     """Bootstrap Widgets should use this to create _template and _scripts"""
+
     # pylint: disable=line-too-long
     _tooltip_element = (
         """tooltip=React.createElement(ReactBootstrap.Tooltip,null,data.tooltip);"""

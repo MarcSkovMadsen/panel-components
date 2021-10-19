@@ -1,3 +1,7 @@
+"""# MaterialButton
+
+See https://mui.com/components/buttons/
+"""
 from collections import namedtuple
 
 import param
@@ -57,8 +61,10 @@ GENERATOR = MaterialWidgetGenerator(
 )
 
 
-class MaterialButton(MaterialWidget, ButtonBase):
-    _template = GENERATOR.create_template()
+class MaterialButton(MaterialWidget, ButtonBase):  # pylint: disable=too-many-ancestors
+    """# MaterialButton
+
+    See https://mui.com/components/buttons/"""
 
     color = param.Selector(
         default="primary",
@@ -85,6 +91,7 @@ class MaterialButton(MaterialWidget, ButtonBase):
     tooltip_configuration = param.Dict({})
     height = param.Integer(default=36, bounds=(0, None))
 
+    _template = GENERATOR.create_template()
     _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):

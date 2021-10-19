@@ -1,10 +1,18 @@
+"""# Wired JS Button
+
+See https://github.com/rough-stuff/wired-elements/blob/master/docs/wired-button.md
+"""
 import param
 
 from ...shared.widgets.button import ButtonBase
 from .wired_widget import WiredWidget
 
 
-class WiredButton(WiredWidget, ButtonBase):
+class WiredButton(WiredWidget, ButtonBase):  # pylint: disable=too-many-ancestors
+    """# Wired JS Button
+
+    See https://github.com/rough-stuff/wired-elements/blob/master/docs/wired-button.md"""
+
     elevation = param.Integer(default=1, bounds=(1, 5))
 
     _template = """
@@ -26,7 +34,3 @@ component.elevation=data.elevation
     @classmethod
     def example(cls):
         return cls(name="Run Pipeline", tooltip="Trains the model", button_type="primary")
-
-
-if __name__.startswith("bokeh"):
-    WiredButton().explorer().servable()

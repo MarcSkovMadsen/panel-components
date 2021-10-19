@@ -1,3 +1,7 @@
+"""# FastButton
+
+See https://www.fast.design/
+"""
 import param
 
 from ...shared.widgets.button import ButtonBase
@@ -21,7 +25,12 @@ BUTTON_TYPE_TO_APPEARANCE = {
 }
 
 
-class FastButton(FastWidget, ButtonBase):
+class FastButton(FastWidget, ButtonBase):  # pylint: disable=too-many-ancestors
+    """Fast Design Button
+
+    See https://www.fast.design/
+    """
+
     appearance = param.ObjectSelector(
         default=DEFAULT_FAST_BUTTON_APPEARANCE,
         objects=FAST_BUTTON_APPEARENCES,
@@ -30,7 +39,6 @@ class FastButton(FastWidget, ButtonBase):
         allow_None=True,
     )
 
-    # For some unknown reason using ${_css_names} gives a js error
     _template = """
 <fast-button id="component" onclick="${script('click')}">${name}</fast-button>
 """
@@ -54,6 +62,3 @@ component.appearance=data.appearance;
     @classmethod
     def example(cls):
         return cls(name="Run Pipeline", tooltip="Trains the model", button_type="primary")
-
-    def _handle_css_names_changed(self, event=None):
-        return super()._handle_css_names_changed(event=event)

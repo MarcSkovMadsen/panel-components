@@ -1,17 +1,16 @@
+"""Shared functionality to create Buttons"""
 import param
 from panel.widgets.button import BUTTON_TYPES
 
 from .widget import Widget
 
-if not "light" in BUTTON_TYPES:
+if "light" not in BUTTON_TYPES:
     BUTTON_TYPES = BUTTON_TYPES + ["light"]
 
 
-class Button:
-    pass
+class ButtonBase(Widget):  # pylint: disable=too-many-ancestors
+    """The Buttons in `panel_components` should inherit from this"""
 
-
-class ButtonBase(Widget):
     value = param.Event(precedence=-1)
     clicks = param.Integer(default=0)
     button_type = param.ObjectSelector(default="default", objects=BUTTON_TYPES)
@@ -43,9 +42,9 @@ class ButtonBase(Widget):
         self.param.trigger("value")
 
     def _handle_button_type_changed(self, event=None):
-        self._handle_css_names_changed()
+        self._handle_css_names_changed(event=event)
 
-    def _handle_css_names_changed(self, event=None):
+    def _handle_css_names_changed(self, event=None):  # pylint: disable=unused-argument
         css_names = self._get_css_names()
         self._set_css_names(css_names)
 
@@ -55,3 +54,7 @@ class ButtonBase(Widget):
     def _set_css_names(self, css_names):
         with param.edit_constant(self):
             self._css_names = " ".join(css_names)
+
+    @classmethod
+    def example(cls):
+        raise NotImplementedError()

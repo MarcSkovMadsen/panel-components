@@ -82,8 +82,6 @@ class AntButton(AntWidget, ButtonBase):  # pylint: disable=too-many-ancestors
     See https://ant.design/components/button/
     """
 
-    _template = GENERATOR.create_template()
-
     danger = param.Boolean(False, doc="Set the danger status of button", precedence=0)
     ghost = param.Boolean(
         False, doc="Make background transparent and invert text and border colors", precedence=0
@@ -98,6 +96,7 @@ class AntButton(AntWidget, ButtonBase):  # pylint: disable=too-many-ancestors
     tooltip_placement = param.Selector(default="bottom", objects=TOOLTIP_PLACEMENTS, precedence=0.2)
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
+    _template = GENERATOR.create_template()
     _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):

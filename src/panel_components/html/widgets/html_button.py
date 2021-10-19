@@ -1,13 +1,21 @@
+"""# Basic HTMLButton
+
+See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button
+"""
 from panel.widgets.button import BUTTON_TYPES
 
 from ...shared.widgets.button import ButtonBase
 from .html_widget import HTMLWidget
 
-if not "light" in BUTTON_TYPES:
+if "light" not in BUTTON_TYPES:
     BUTTON_TYPES.append("light")
 
 
-class HTMLButton(HTMLWidget, ButtonBase):
+class HTMLButton(HTMLWidget, ButtonBase):  # pylint: disable=too-many-ancestors
+    """# Basic HTMLButton
+
+    See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button"""
+
     _template = """<button id="component" onclick="${script('click')}">${name}</button>"""
 
     def _get_css_names(self):

@@ -1,19 +1,24 @@
+"""Test of the ReactComponentGenerator"""
 from panel_components.material.widgets.material_widget import MaterialWidgetGenerator
 from panel_components.shared.component import ReactComponentGenerator
 
 
 def test_react_component():
+    """Tests that the Basic Functionality of ReactComponentGenerator works"""
     assert (
         ReactComponentGenerator().create_template()
         == """<div id="component" class="pnc-container"></div>"""
     )
+    # pylint: disable=protected-access
     assert ReactComponentGenerator._self_rerender == "self.updateElement()"
 
 
 def test_create_component_scripts():
+    """Tests that the Basic Functionality of a child class to the ReactComponentGenerator Works"""
     # When
     scripts = MaterialWidgetGenerator(element="MaterialUI.Button", children="name").create_scripts()
     # Then
+    # pylint: disable=line-too-long
     assert scripts["render"] == "state.component=component;self.updateElement()"
     assert scripts["disabled"] == "self.updateElement()"
     assert scripts["updateElement"] == (
@@ -27,6 +32,7 @@ def test_create_component_scripts():
 
 
 def test_create_complex_component_script():
+    """Tests that a more advanced use of ReactComponentGenerator works"""
     scripts = ReactComponentGenerator(
         element="MaterialUI.Button",
         properties={
@@ -46,6 +52,7 @@ def test_create_complex_component_script():
 
 
 def test_different_prop_param_names():
+    """Tests that properties can be defined"""
     # When
     scripts = MaterialWidgetGenerator(
         element="MaterialUI.Button",
@@ -53,6 +60,7 @@ def test_different_prop_param_names():
         children="name",
     ).create_scripts()
     # Then
+    # pylint: disable=line-too-long
     assert scripts["render"] == "state.component=component;self.updateElement()"
     assert scripts["disable_elevation"] == "self.updateElement()"
     assert scripts["updateElement"] == (

@@ -1,3 +1,7 @@
+"""# ShoelaceButton
+
+See https://shoelace.style/components/button
+"""
 from collections import namedtuple
 
 import param
@@ -66,7 +70,11 @@ GENERATOR = ComponentGenerator(
 )
 
 
-class ShoelaceButton(ShoelaceWidget, ButtonBase):
+class ShoelaceButton(ShoelaceWidget, ButtonBase):  # pylint: disable=too-many-ancestors
+    """# ShoelaceButton
+
+    See https://shoelace.style/components/button"""
+
     button_type = param.Selector(
         default="default", objects=BUTTON_TYPES_ALL, doc="""The button's type.""", precedence=0.1
     )
