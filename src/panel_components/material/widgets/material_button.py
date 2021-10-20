@@ -71,7 +71,7 @@ class MaterialButton(MaterialWidget, ButtonBase):  # pylint: disable=too-many-an
     disable_elevation = param.Boolean()
     disable_focusRipple = param.Boolean()
     disable_ripple = param.Boolean()
-
+    href = param.String()
     tooltip = param.String("Click Me!")
     tooltip_placement = param.Selector(default="bottom", objects=TOOLTIP_PLACEMENTS)
 
@@ -80,25 +80,52 @@ class MaterialButton(MaterialWidget, ButtonBase):  # pylint: disable=too-many-an
 
     height = param.Integer(default=36, bounds=(0, None))
 
-    _scripts = MaterialWidget._scripts(
-        element="MaterialUI.Button",
-        properties={
-            # Widget
-            "autofocus": "autofocus",
-            "className": "_css_names",
-            "disabled": "disabled",
-            # MaterialButton
-            "color": "color",
-            "disableElevation": "disable_elevation",
-            "disableFocusRipple": "disable_focus_ripple",
-            "disableRipple": "disable_ripple",
-            "fullWidth": "full_width",
-            "size": "size",
-            "variant": "variant",
+    _scripts = {
+        "autofocus": "self.reRender()",
+        "_css_names": "self.reRender()",
+        "disabled": "self.reRender()",
+        "href": "self.reRender()",
+        "color": "self.reRender()",
+        "disable_elevation": "self._u()",
+        "disable_focus_ripple": "self.reRender()",
+        "disable_ripple": "self.reRender()",
+        "full_width": "self.reRender()",
+        "size": "self.reRender()",
+        "variant": "self.reRender()",
+        "tooltip": "self.reRender()",
+        "tooltip_placement": "self.reRender()",
+        "render": "state.component=component;self.reRender()",
+        "reRender": """
+element=React.createElement(
+    MaterialUI.Tooltip,
+    {title: data.tooltip, placement: data.tooltip_placement},
+    React.createElement(
+        MaterialUI.Button,
+        {
+            autofocus: data.autofocus,
+            className: data._css_names,
+            disabled: data.disabled,
+            href: data.href,
+            color: data.color,
+            disableElevation: data.disable_elevation,
+            disableFocusRipple: data.disable_focus_ripple,
+            disableRipple: data.disable_ripple,
+            fullWidth: data.full_width,
+            size: data.size,
+            variant: data.variant,
+            onClick: ()=>{data.clicks += 1}
         },
-        events={"onClick": "data.clicks += 1"},
-        children=["data.name"],
-    )
+        data.name
+)
+);
+ReactDOM.unmountComponentAtNode(state.component);
+ReactDOM.render(element,state.component)
+""".replace(
+            "\n", ""
+        ).replace(
+            r"\s", ""
+        ),
+    }
 
     def __init__(self, **params):
         super().__init__(**params)

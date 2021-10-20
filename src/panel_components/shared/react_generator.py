@@ -52,22 +52,31 @@ class ReactGenerator(param.Parameterized):
         return {**properties, **events}
 
     @property
-    def create_element(self) -> str:
-        """Returns the core React.createElement script"""
-        configuration = self.configuration
-        configuration_str = f"{configuration}".replace("'", "")
+    def configuration_str(self) -> str:
+        """Returns the configuration as a string. Ready for use"""
+        return f"{self.configuration}".replace("'", "")
+
+    @property
+    def children_str(self) -> str:
+        """Returns the children as a string. Ready for use"""
         children = [self._create_element(child) for child in self.children]
         if len(children) == 1:
             children_str = children[0]
         else:
             children_str = f"{children}".replace("'", "")
-        return f"""React.createElement({self.element},{configuration_str},{children_str})"""
+        return children_str
+
+    @property
+    def create_element(self) -> str:
+        """Returns the core React.createElement script"""
+        # pylint: disable=line-too-long
+        return f"""(props)=>{{return React.createElement({self.element},{self.configuration_str},{self.children_str})}}"""
 
     @property
     def update_element(self):
         """Returns the "updateElement" script"""
         return (
-            f"""element={self.create_element};"""
+            f"""element=React.createElement({self.create_element});"""
             """ReactDOM.unmountComponentAtNode(state.component);"""
             """ReactDOM.render(element,state.component)"""
         )
