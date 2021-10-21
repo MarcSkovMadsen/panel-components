@@ -2,6 +2,8 @@
 
 See https://mui.com/components/buttons/
 """
+from collections import namedtuple
+
 import param
 
 from ...shared.widgets.widget import Widget
@@ -92,6 +94,21 @@ class MaterialSliderBase(param.Parameterized):
     value_label_display = param.Selector(default="off", objects=["auto", "off", "on"])
 
 
+_Config = namedtuple("_Config", "orientation marks show_value")
+_Size = namedtuple("_Size", "height width")
+
+COMPONENT_SIZE = {
+    _Config("horizontal", True, True): _Size(70, 300),
+    _Config("horizontal", True, False): _Size(50, 300),
+    _Config("horizontal", False, True): _Size(50, 300),
+    _Config("horizontal", False, False): _Size(30, 300),
+    _Config("vertical", True, True): _Size(300, 150),
+    _Config("vertical", True, False): _Size(300, 150),
+    _Config("vertical", False, True): _Size(300, 100),
+    _Config("vertical", False, False): _Size(300, 100),
+}
+
+
 class MaterialFloatSlider(
     MaterialSliderBase, MaterialWidget, ContinuousSliderBase
 ):  # pylint: disable=too-many-ancestors
@@ -102,6 +119,7 @@ class MaterialFloatSlider(
     - [MaterialUI Slider API](https://mui.com/api/slider/) and
     [MaterialUI Slider Examples](https://mui.com/components/slider/)
     - [Panel FloatSlider](https://panel.holoviz.org/reference/widgets/FloatSlider.html)
+
     """
 
     start = param.Number(
@@ -130,15 +148,8 @@ When step is null, the thumb can only be slid onto marks provided with the marks
     height = param.Integer(default=60, bounds=(0, None))
     width = param.Integer(default=300, bounds=(0, None))
 
-    def __init__(self, **params):
-        super().__init__(**params)
-
-        if (
-            self.orientation == "vertical"
-            and self.width == self.param.width.default
-            and self.height == self.param.height.default
-        ):
-            self.width, self.height = self.height, self.width
+    _template = """
+    <div id="component" class="pnc-component"></div>"""
 
     _scripts = {
         # Widget
@@ -151,7 +162,7 @@ When step is null, the thumb can only be slid onto marks provided with the marks
         "show_value": """self.rr()""",
         # MaterialSliderBase
         "color": "self.rr()",
-        "marks": "self.rr()",
+        "marks": """console.log("rerender");self.rr()""",
         "orientation": "h=model.height;w=model.width;model.height=w;model.width=h;self.rr()",
         "size": "self.rr()",
         "track": "self.rr()",
@@ -159,26 +170,29 @@ When step is null, the thumb can only be slid onto marks provided with the marks
         # FloatSlider
         "start": "self.rr()",
         "end": "self.rr()",
-        "value": "if (!state.updating){self.rr()}else{state.updating=false}",
+        "value": """if (!state.updating){self.rr()}else{state.updating=false};
+state.cc.getElementsByClassName("pnc-label")[0].innerHTML="Gamma: " + data.value;""",
         "step": "self.rr()",
         "render": "state.cc=component;state.updating=false;self.rr()",
         "rr": """
 function PncMaterialTooltip({tooltip, tooltip_placement, children}){
-    console.log(children)
     return React.createElement(
         MaterialUI.Tooltip,
         {title: tooltip, placement: tooltip_placement},
         children
         );
 }
-slider=React.createElement(
+slider_el=React.createElement(
     MaterialUI.Slider,
     {
+        ariaLabel: data.name,
+        getAriaValueText: ()=>{return (data.name ? data.name + ": " : "") + data.value},
         autofocus: data.autofocus,
         className: data._css_names,
         disabled: data.disabled,
         color: data.color,
         defaultValue: data.value,
+        isRtl: data.direction==="rtl",
         step: data.step,
         marks: data.marks,
         min: data.start,
@@ -193,10 +207,9 @@ slider=React.createElement(
     }
 )
 if (data.show_value){
-    title=data.name ? data.name + ":" : ""
-
-    elem = React.createElement(MaterialUI.Typography,null,title)
-    slider=React.createElement(MaterialUI.Box,null,elem,slider)
+    title=(data.name ? data.name + ": " : "") + data.value
+    elem = React.createElement(MaterialUI.Typography,{className: "pnc-label"},title)
+    slider_el=React.createElement(MaterialUI.Box,{style:{height: (data.orientation==="vertical" && data.show_value) ? "calc(100% - 40px)" : "100%"}},elem,slider_el)
 }
 element=React.createElement(
     PncMaterialTooltip,
@@ -206,12 +219,25 @@ element=React.createElement(
         data.tooltip_placement,
 
     },
-    slider
+    slider_el
 )
 ReactDOM.unmountComponentAtNode(state.cc);
 ReactDOM.render(element,state.cc)
 """,
     }
+
+    def __init__(self, **params):
+        super().__init__(**params)
+
+        if "height" not in params and "width" not in params:
+            self._update_size()
+
+    @param.depends("direction", "marks", "show_value", watch=True)
+    def _update_size(self):
+        config = _Config(self.orientation, isinstance(self.marks, list), self.show_value)
+        size = COMPONENT_SIZE[config]
+        self.height = size.height
+        self.width = size.width
 
     @classmethod
     def example(cls):
