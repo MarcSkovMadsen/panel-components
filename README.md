@@ -20,6 +20,8 @@ pip install -e .
 panel serve 'src\panel_components\shared\component_explorer\__init__.py' --autoreload --show
 ```
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ufrDZnZ3Jwc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## 🎁 Contributing
 
 Feel free to contribute via PRs.
