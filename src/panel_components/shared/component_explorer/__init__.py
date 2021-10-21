@@ -7,29 +7,32 @@ from panel_components.bootstrap.widgets import BootstrapButton
 from panel_components.fast.widgets import FastButton
 from panel_components.fluent.widgets import FluentButton
 from panel_components.html.widgets import HTMLButton
-from panel_components.material.widgets import MaterialButton
+from panel_components.material.widgets import MaterialButton, MaterialFloatSlider, MaterialIntSlider
 from panel_components.panel.widgets import Button
 from panel_components.shoelace.widgets import ShoelaceButton
 from panel_components.wired.widgets import WiredButton
 
-pn.config.raw_css.append(
+pn.config.raw_css=[
     """
+body {
+    margin: 25px;
+}
 .pnc-container, .pnc-component {
    width: 100%;
    height: 100%;
 }
 """
-)
+]
 
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
-    "Material": [MaterialButton.example()],
     "Bootstrap": [BootstrapButton.example()],
     "Ant": [AntButton.example()],
     "Fast": [FastButton.example()],
     "Fluent": [FluentButton.example()],
     "HTML": [HTMLButton.example()],
+    "Material": [MaterialButton.example(), MaterialFloatSlider.example(), MaterialIntSlider()],
     "Panel": [Button.example()],
     "Shoelace": [ShoelaceButton.example()],
     "Wired": [WiredButton.example()],

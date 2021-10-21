@@ -16,7 +16,9 @@ class WiredButton(WiredWidget, ButtonBase):  # pylint: disable=too-many-ancestor
     elevation = param.Integer(default=1, bounds=(1, 5))
 
     _template = """
-<wired-button id="component" onclick="${script('click')}">${name}</wired-button>
+<div id="container" class="pnc-component">
+    <wired-button id="component" onclick="${script('click')}">${name}</wired-button>
+</div>
 """
     __javascript_modules__ = [
         "https://unpkg.com/wired-elements@3.0.0-rc.6/lib/wired-button.js?module"
