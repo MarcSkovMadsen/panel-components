@@ -52,20 +52,20 @@ class SliderBase(Widget):  # pylint: disable=too-many-ancestors
         raise NotImplementedError()
 
 
-class ContinuousSliderBase(SliderBase):  # pylint: disable=too-many-ancestors
-    """Base class for continous sliders"""
+_Config = namedtuple("_Config", "orientation marks show_value")
+_Size = namedtuple("_Size", "height width")
 
-    format = param.String(
-        doc="""
-        Allows defining a custom format string."""
-    )
-
-    @classmethod
-    def example(cls):
-        raise NotImplementedError()
-
-
-class MaterialSliderBase(param.Parameterized):
+COMPONENT_SIZE = {
+    _Config("horizontal", True, True): _Size(70, 300),
+    _Config("horizontal", True, False): _Size(50, 300),
+    _Config("horizontal", False, True): _Size(50, 300),
+    _Config("horizontal", False, False): _Size(30, 300),
+    _Config("vertical", True, True): _Size(300, 150),
+    _Config("vertical", True, False): _Size(300, 150),
+    _Config("vertical", False, True): _Size(300, 100),
+    _Config("vertical", False, False): _Size(300, 100),
+}
+class MaterialSliderBase(MaterialWidget):
     """Base class for MaterialUI Sliders"""
 
     color = param.Selector(
@@ -93,58 +93,6 @@ class MaterialSliderBase(param.Parameterized):
     track = param.Selector(default="normal", objects=["inverted", "normal", False])
     value_label_display = param.Selector(default="off", objects=["auto", "off", "on"])
 
-
-_Config = namedtuple("_Config", "orientation marks show_value")
-_Size = namedtuple("_Size", "height width")
-
-COMPONENT_SIZE = {
-    _Config("horizontal", True, True): _Size(70, 300),
-    _Config("horizontal", True, False): _Size(50, 300),
-    _Config("horizontal", False, True): _Size(50, 300),
-    _Config("horizontal", False, False): _Size(30, 300),
-    _Config("vertical", True, True): _Size(300, 150),
-    _Config("vertical", True, False): _Size(300, 150),
-    _Config("vertical", False, True): _Size(300, 100),
-    _Config("vertical", False, False): _Size(300, 100),
-}
-
-
-class MaterialFloatSlider(
-    MaterialSliderBase, MaterialWidget, ContinuousSliderBase
-):  # pylint: disable=too-many-ancestors
-    """A Material Float Slider
-
-    Based on
-
-    - [MaterialUI Slider API](https://mui.com/api/slider/) and
-    [MaterialUI Slider Examples](https://mui.com/components/slider/)
-    - [Panel FloatSlider](https://panel.holoviz.org/reference/widgets/FloatSlider.html)
-
-    """
-
-    start = param.Number(
-        default=0.0,
-        doc="""
-    The minimum allowed value of the slider. Should not be equal to max.""",
-    )
-
-    end = param.Number(
-        default=1.0,
-        doc="""
-    The maximum allowed value of the slider. Should not be equal to min.""",
-    )
-
-    value = param.Number(default=0.0)
-
-    value_throttled = param.Number(default=None, constant=True)
-
-    step = param.Number(
-        default=0.1,
-        doc="""
-    The granularity with which the slider can step through values. (A "discrete" slider.) The min prop serves as the origin for the valid values. We recommend (max - min) to be evenly divisible by the step.
-When step is null, the thumb can only be slid onto marks provided with the marks prop""",
-    )
-
     height = param.Integer(default=60, bounds=(0, None))
     width = param.Integer(default=300, bounds=(0, None))
 
@@ -171,7 +119,7 @@ When step is null, the thumb can only be slid onto marks provided with the marks
         "start": "self.rr()",
         "end": "self.rr()",
         "value": """if (!state.updating){self.rr()}else{state.updating=false};
-state.cc.getElementsByClassName("pnc-label")[0].innerHTML="Gamma: " + data.value;""",
+state.cc.getElementsByClassName("pnc-label")[0].innerHTML=(data.name ? data.name + ": " : "") + data.value;""",
         "step": "self.rr()",
         "render": "state.cc=component;state.updating=false;self.rr()",
         "rr": """
@@ -239,6 +187,115 @@ ReactDOM.render(element,state.cc)
         self.height = size.height
         self.width = size.width
 
+class MaterialIntSlider(MaterialSliderBase, SliderBase):
+    """A Material Int Slider
+
+    Based on
+
+    - [MaterialUI Slider API](https://mui.com/api/slider/) and
+    [MaterialUI Slider Examples](https://mui.com/components/slider/)
+    - [Panel IntSlider](https://panel.holoviz.org/reference/widgets/IntSlider.html)
+
+    """
+    start = param.Integer(
+        default=0,
+        doc="""
+    The minimum allowed value of the slider. Should not be equal to max.""",
+    )
+
+    end = param.Integer(
+        default=1,
+        doc="""
+    The maximum allowed value of the slider. Should not be equal to min.""",
+    )
+
+    value = param.Integer(default=0)
+
+    value_throttled = param.Integer(default=None, constant=True)
+
+    step = param.Integer(
+        default=1,
+        doc="""
+    The granularity with which the slider can step through values. (A "discrete" slider.) The min prop serves as the origin for the valid values. We recommend (max - min) to be evenly divisible by the step.
+When step is null, the thumb can only be slid onto marks provided with the marks prop""",
+    )
+
+    @classmethod
+    def example(cls):
+        return cls(
+            name="Temperature",
+            tooltip="The temperature in °C",
+            start=0,
+            end=100,
+            value=37,
+            step=1,
+            marks=[
+                {
+                    "value": 0,
+                    "label": '0°C',
+                },
+                {
+                    "value": 20,
+                    "label": '20°C',
+                },
+                {
+                    "value": 37,
+                    "label": '37°C',
+                },
+                {
+                    "value": 100,
+                    "label": '100°C',
+                },
+                ]
+        )
+
+class ContinuousSliderBase(SliderBase):  # pylint: disable=too-many-ancestors
+    """Base class for continous sliders"""
+
+    format = param.String(
+        doc="""
+        Allows defining a custom format string."""
+    )
+
+    @classmethod
+    def example(cls):
+        raise NotImplementedError()
+class MaterialFloatSlider(
+    MaterialSliderBase, ContinuousSliderBase
+):  # pylint: disable=too-many-ancestors
+    """A Material Float Slider
+
+    Based on
+
+    - [MaterialUI Slider API](https://mui.com/api/slider/) and
+    [MaterialUI Slider Examples](https://mui.com/components/slider/)
+    - [Panel FloatSlider](https://panel.holoviz.org/reference/widgets/FloatSlider.html)
+
+    """
+
+    start = param.Number(
+        default=0.0,
+        doc="""
+    The minimum allowed value of the slider. Should not be equal to max.""",
+    )
+
+    end = param.Number(
+        default=1.0,
+        doc="""
+    The maximum allowed value of the slider. Should not be equal to min.""",
+    )
+
+    value = param.Number(default=0.0)
+
+    value_throttled = param.Number(default=None, constant=True)
+
+    step = param.Number(
+        default=0.1,
+        doc="""
+    The granularity with which the slider can step through values. (A "discrete" slider.) The min prop serves as the origin for the valid values. We recommend (max - min) to be evenly divisible by the step.
+When step is null, the thumb can only be slid onto marks provided with the marks prop""",
+    )
+
     @classmethod
     def example(cls):
         return cls(
@@ -259,3 +316,4 @@ ReactDOM.render(element,state.cc)
                 },
             ],
         )
+
