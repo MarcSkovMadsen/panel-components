@@ -12,7 +12,7 @@ from ..component import Component
 class Widget(Component):  # pylint: disable=too-few-public-methods, too-many-ancestors
     """Base Widget Class. You `panel_component` widgets should inherit from this"""
 
-    name = param.String(default="", doc="Name of the widget")
+    name = param.String(doc="Name of the widget")
     css_names = param.List([], doc="A list of css classes to be applied to the widget.")
     disabled = param.Boolean(
         default=False,

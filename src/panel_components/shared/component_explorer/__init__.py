@@ -24,12 +24,12 @@ pn.config.raw_css.append(
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
+    "Material": [MaterialButton.example()],
     "Bootstrap": [BootstrapButton.example()],
     "Ant": [AntButton.example()],
     "Fast": [FastButton.example()],
     "Fluent": [FluentButton.example()],
     "HTML": [HTMLButton.example()],
-    "Material": [MaterialButton.example()],
     "Panel": [Button.example()],
     "Shoelace": [ShoelaceButton.example()],
     "Wired": [WiredButton.example()],

@@ -32,7 +32,7 @@ class Component(ReactiveHTML):  # pylint: disable=too-many-ancestors
         self._sort_controls(controls)
         panel = Row(controls, self, sizing_mode="stretch_both")
         if show_name:
-            title = "# " + self.name
+            title = self.name
             return Column(title, panel)
 
         return panel

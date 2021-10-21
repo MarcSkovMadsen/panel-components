@@ -2,10 +2,12 @@
 
 See https://mui.com/
 """
+from panel.reactive import ReactiveHTML
+
 from ..shared.react_generator import ReactGenerator
 
 
-class MaterialComponent:  # pylint: disable=too-few-public-methods
+class MaterialComponent(ReactiveHTML):  # pylint: disable=too-few-public-methods, too-many-ancestors
     """The MaterialWidget and MaterialLayout should inherit from this"""
 
     _template = """<div id="component" class="pnc-component"></div>"""
