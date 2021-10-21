@@ -97,7 +97,28 @@ class AntButton(AntWidget, ButtonBase):  # pylint: disable=too-many-ancestors
     tooltip_configuration = param.Dict({}, precedence=0.2)
 
     _template = GENERATOR.create_template()
-    _scripts = GENERATOR.create_scripts()
+    # _scripts = GENERATOR.create_scripts()
+    _scripts = {
+        'render': 'state.component=component;self.updateElement()',
+        '_css_names': 'self.updateElement()',
+        'disabled': 'self.updateElement()',
+        'danger': 'self.updateElement()',
+        'ghost': 'self.updateElement()',
+        'shape': 'self.updateElement()',
+        'size': 'self.updateElement()',
+        '_button_type': 'self.updateElement()',
+        'tooltip': 'self.updateElement()',
+        'tooltip_placement':
+        'self.updateElement()',
+        'tooltip_configuration':
+        'self.updateElement()',
+        'updateElement': """
+            config={className:data._css_names,disabled:data.disabled,danger:data.danger,ghost:data.ghost,shape:data.shape,size:data.size,type:data._button_type,style: {width: "100%",height:"100%"},onClick:()=>{data.clicks=data.clicks+1},...data.configuration};
+            element=React.createElement(antd.Button,config,data.name);
+            element=React.createElement(antd.Tooltip,{title:data.tooltip,placement:data.tooltip_placement,...data.tooltip_configuration},element);
+            ReactDOM.unmountComponentAtNode(state.component);
+            ReactDOM.render(element,state.component)
+        """}
 
     def __init__(self, **params):
         super().__init__(**params)

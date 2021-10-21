@@ -79,7 +79,7 @@ class BootstrapButton(BootstrapWidget, ButtonBase):  # pylint: disable=too-many-
 
     height = param.Integer(default=38, bounds=(0, None))
 
-    _template = GENERATOR.create_template()
+    _template = """<div id="component" class="pnc-component d-grid gap-2"></div>"""
     _scripts = GENERATOR.create_scripts()
 
     def __init__(self, **params):

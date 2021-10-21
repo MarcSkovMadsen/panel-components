@@ -1,15 +1,25 @@
-# Panel Components
+# 💻 Panel Components
 
 A package of components for Panel.
 
-WORK IN PROGRESS. VERY PRELIMINARY
+The vision is to create components for Panel based on the most popular frameworks like Bootstrap, Material, Fast/ Fluent and more.
 
-## Installation
+THIS IS VERY PRELIMINARY AND WORK IN PROGRESS
+
+## 🏁 Installation
 
 ```bash
+git clone https://github.com/MarcSkovMadsen/panel-components
+cd panel-components
 pip install -e .
 ```
 
-## Contributing
+## 🗺️ Serve the Component Explorer
 
-C.f. the [Wiki](https://github.com/MarcSkovMadsen/panel-components/wiki#design-principles).
+```bash
+panel serve 'src\panel_components\shared\component_explorer\__init__.py' --autoreload --show
+```
+
+## 🎁 Contributing
+
+Feel free to contribute via PRs.

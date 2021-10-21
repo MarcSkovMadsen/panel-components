@@ -39,8 +39,11 @@ class FastButton(FastWidget, ButtonBase):  # pylint: disable=too-many-ancestors
         allow_None=True,
     )
 
+    height = param.Integer(default=40, bounds=(0, None))
+
     _template = """
-<fast-button id="component" onclick="${script('click')}">${name}</fast-button>
+    <fast-button id="component" onclick="${script('click')}">${name}</fast-button>
+    <fast-tooltip anchor="component-${id}">${tooltip}</fast-tooltip>
 """
 
     _scripts = {

@@ -204,7 +204,7 @@ class MaterialIntSlider(MaterialSliderBase, SliderBase):
     )
 
     end = param.Integer(
-        default=1,
+        default=100,
         doc="""
     The maximum allowed value of the slider. Should not be equal to min.""",
     )

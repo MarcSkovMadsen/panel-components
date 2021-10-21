@@ -13,7 +13,9 @@ class FluentButton(FluentWidget, FastButton):  # pylint: disable=too-many-ancest
 
     _template = """\
 <fluent-button id="component" onclick="${script('click')}">${name}</fluent-button>
-<fluent-tooltip anchor="component-${id}">${tooltip}</fluent-tooltip>"""
+<fluent-tooltip anchor="component-${id}">${tooltip}</fluent-tooltip>
+"""
+
 
     @classmethod
     def example(cls):

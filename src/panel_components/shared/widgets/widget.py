@@ -35,7 +35,7 @@ class Widget(Component):  # pylint: disable=too-few-public-methods, too-many-anc
     # A string version of the `css_names` list
     _css_names = param.String("")
 
-    _css_names_component = ["pnc-widget"]
+    _css_names_component = ["pnc-component"]
 
     _scripts = {
         "render": (

@@ -16,7 +16,7 @@ class HTMLButton(HTMLWidget, ButtonBase):  # pylint: disable=too-many-ancestors
 
     See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button"""
 
-    _template = """<button id="component" onclick="${script('click')}">${name}</button>"""
+    _template = """<button id="component" class="pnc-component" onclick="${script('click')}" >${name}</button>"""
 
     def _get_css_names(self):
         return ["btn-" + self.button_type] + super()._get_css_names()

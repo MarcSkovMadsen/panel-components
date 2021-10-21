@@ -27,12 +27,12 @@ body {
 COMPONENT_TYPES = ["widget"]
 
 WIDGETS = {
-    "Bootstrap": [BootstrapButton.example()],
     "Ant": [AntButton.example()],
+    "Bootstrap": [BootstrapButton.example()],
     "Fast": [FastButton.example()],
     "Fluent": [FluentButton.example()],
     "HTML": [HTMLButton.example()],
-    "Material": [MaterialButton.example(), MaterialFloatSlider.example(), MaterialIntSlider()],
+    "Material": [MaterialButton.example(), MaterialFloatSlider.example(), MaterialIntSlider.example()],
     "Panel": [Button.example()],
     "Shoelace": [ShoelaceButton.example()],
     "Wired": [WiredButton.example()],
@@ -89,6 +89,7 @@ class ComponentExplorer(pn.viewable.Viewer):
             controls = self.component.controls(sizing_mode="fixed", width=300)
             explorer = pn.Row(controls, self)
         self._layout[:] = [
+            "# Panel Component Explorer",
             self._settings,
             self.title,
             pn.layout.HSpacer(height=10),
